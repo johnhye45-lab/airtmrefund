@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* ============================================
            RESET
@@ -64,6 +65,14 @@
             --color-informative-70: #0f4fc9;
             --color-informative-90: #0a3396;
 
+            --color-success-10: #e4f9ee;
+            --color-success-50: #10b87a;
+            --color-success-70: #0a8f5e;
+
+            --color-error-10: #fde8ea;
+            --color-error-50: #e72a3a;
+            --color-error-70: #b81f2c;
+
             --color-shadow-10: #f2f4f7;
             --color-shadow-30: #d0d5dd;
             --color-shadow-50: #98a2b3;
@@ -97,7 +106,7 @@
         }
 
         /* ============================================
-           LOGIN PAGE STYLES
+           PAGE CONTAINER
            ============================================ */
         .login-page {
             display: flex;
@@ -109,7 +118,7 @@
         .login-form-column {
             flex: 0 0 50%;
             max-width: 50%;
-            padding: 4rem 4.8rem 3.2rem;
+            padding: 0 4.8rem 3.2rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -194,7 +203,6 @@
             min-height: var(--header-height);
         }
 
-        /* Airtm SVG Logo - white text on black */
         .login-header .brand {
             display: flex;
             align-items: center;
@@ -213,7 +221,7 @@
             fill: #ffffff;
         }
 
-        /* Language Selector - on black background */
+        /* Language Selector */
         .language-selector {
             position: relative;
             display: flex;
@@ -245,7 +253,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Dropdown Menu */
         .language-dropdown {
             position: absolute;
             top: calc(100% + 0.8rem);
@@ -307,7 +314,7 @@
         }
 
         /* ============================================
-           FORM TITLE - "LOG IN" (UPPERCASE)
+           LOGIN FORM
            ============================================ */
         .form-title {
             font-size: 3.6rem;
@@ -333,7 +340,9 @@
             gap: 2rem;
         }
 
-        /* Input group with floating label */
+        /* ============================================
+           INPUT GROUP
+           ============================================ */
         .input-group {
             position: relative;
             display: flex;
@@ -400,6 +409,9 @@
             line-height: 1.4;
         }
 
+        /* ============================================
+           FORM OPTIONS & BUTTONS
+           ============================================ */
         .form-options {
             display: flex;
             justify-content: flex-end;
@@ -465,6 +477,9 @@
             text-decoration: underline;
         }
 
+        /* ============================================
+           FOOTER
+           ============================================ */
         .login-footer-links {
             display: flex;
             justify-content: center;
@@ -498,7 +513,7 @@
            ============================================ */
         @media (max-width: 1024px) {
             .login-form-column {
-                padding: 3.2rem 3.2rem 2.4rem;
+                padding: 0 3.2rem 2.4rem;
             }
         }
 
@@ -510,7 +525,7 @@
             .login-form-column {
                 flex: 1 1 auto;
                 max-width: 100%;
-                padding: 2.4rem 2rem 2rem;
+                padding: 0 2rem 2rem;
                 min-height: auto;
                 justify-content: flex-start;
             }
@@ -539,7 +554,7 @@
 
         @media (max-width: 480px) {
             .login-form-column {
-                padding: 1.6rem 1.6rem 1.6rem;
+                padding: 0 1.6rem 1.6rem;
             }
 
             .login-header {
@@ -605,10 +620,9 @@
         <!-- LEFT: Form Column -->
         <div class="login-form-column">
             <!-- ============================================
-                 TOP HEADER - BLACK BACKGROUND
-                 ============================================ -->
+               TOP HEADER - BLACK BACKGROUND
+               ============================================ -->
             <div class="login-header">
-                <!-- Airtm SVG Logo (exactly from your inspection) -->
                 <a href="#" class="brand">
                     <svg viewBox="0 0 98 39" fill="currentColor" width="98" class="text--white">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M28.6946 0.795593H24.5919V22.0357H28.6946V0.795593ZM5.46951 17.6468L11.1472 5.91808L14.2697 12.3606L5.46951 17.6474V17.6468ZM23.164 22.0603L19.1688 13.8184L23.0611 11.4801L21.0654 8.2775L17.5169 10.4094L13.6284 2.38616C13.3904 1.89447 13.0272 1.48678 12.5783 1.20645C12.1261 0.925006 11.6072 0.782617 11.0771 0.796523C10.5465 0.809872 10.0343 0.978402 9.59598 1.2832C9.17716 1.57466 8.84343 1.9818 8.62818 2.46236L0.83579 18.5601L0.817435 18.6035C0.299055 19.826 0.642232 21.211 1.67121 22.0509C2.68127 22.8752 4.074 22.9452 5.15915 22.235L15.9222 15.7696L18.9713 22.0609H23.164V22.0603ZM35.3001 10.7275H41.3942V10.728C44.532 10.728 45.5879 9.08269 45.5879 7.22757C45.5879 5.37246 44.532 3.84722 41.4244 3.84722H35.3001V10.7275ZM42.1789 0.795593C48.0319 0.795593 49.9022 3.90699 49.9022 7.19769C49.9022 9.68037 48.6051 12.2533 45.1051 13.151L50.626 22.0357H45.9797L40.8512 13.6894H35.3001V22.0357H31.1974V0.795593H42.1789ZM51.1385 4.08629H58.9521V22.0357H63.056V4.08629H70.8696V0.795593H51.1385V4.08629ZM78.795 0.795593H72.731H72.7305V22.0357H76.4414V6.6592C76.4414 5.70176 76.3811 4.83397 76.2907 4.08629H76.4112C76.5318 4.65524 76.8337 5.7621 77.1357 6.56955L83.2298 22.0363H87.0914L93.1855 6.56955C93.5175 5.76153 93.8792 4.56501 93.9702 4.08629H94.0907C94.0003 4.86443 93.94 5.79141 93.94 6.6592V22.0357H97.7715V0.795593H91.6473L85.8847 15.6037C85.5532 16.5008 85.3718 17.0393 85.2513 17.7577H85.191C85.0838 17.1195 84.929 16.6466 84.6837 15.8976C84.6531 15.8043 84.6212 15.7066 84.5877 15.6037L78.795 0.795593Z"></path>
@@ -625,46 +639,34 @@
                     </svg>
                 </a>
 
-                <!-- Language Selector with Dropdown -->
                 <div class="language-selector" id="languageSelector">
                     <i class="fas fa-globe globe-icon"></i>
                     <span id="selectedLanguage">EN</span>
                     <i class="fas fa-chevron-down"></i>
-
-                    <!-- Dropdown Menu -->
                     <div class="language-dropdown" id="languageDropdown">
-                        <button class="dropdown-item active" data-lang="EN">
-                            English
-                            <i class="fas fa-check check-icon"></i>
-                        </button>
-                        <button class="dropdown-item" data-lang="ES">
-                            Español
-                            <i class="fas fa-check check-icon"></i>
-                        </button>
-                        <button class="dropdown-item" data-lang="PT">
-                            Português
-                            <i class="fas fa-check check-icon"></i>
-                        </button>
+                        <button class="dropdown-item active" data-lang="EN">English <i class="fas fa-check check-icon"></i></button>
+                        <button class="dropdown-item" data-lang="ES">Español <i class="fas fa-check check-icon"></i></button>
+                        <button class="dropdown-item" data-lang="PT">Português <i class="fas fa-check check-icon"></i></button>
                     </div>
                 </div>
             </div>
 
             <!-- ============================================
-               FORM SECTION
+               LOGIN PAGE
                ============================================ -->
             <h1 class="form-title">LOG IN</h1>
             <p class="form-subtitle">Enter the email address associated with your account.</p>
 
             <form class="login-form" action="#" method="POST">
                 <div class="input-group">
-                    <input type="email" id="email" placeholder=" " required>
-                    <label for="email">Your email</label>
+                    <input type="email" id="login-email" placeholder=" " required>
+                    <label for="login-email">Your email</label>
                     <span class="helper-text">Enter the email address associated with your account.</span>
                 </div>
 
                 <div class="input-group">
-                    <input type="password" id="password" placeholder=" " required>
-                    <label for="password">Password</label>
+                    <input type="password" id="login-password" placeholder=" " required>
+                    <label for="login-password">Password</label>
                 </div>
 
                 <div class="form-options">
@@ -675,9 +677,10 @@
             </form>
 
             <div class="signup-link">
-                Not registered yet? <a href="#">Create an account</a>
+                Not registered yet? <a href="signup.html">Create an account</a>
             </div>
 
+            <!-- Footer -->
             <div class="login-footer-links">
                 <a href="#">Privacy</a>
                 <span class="divider">|</span>
@@ -704,12 +707,9 @@
         </div>
     </div>
 
-    <!-- Font Awesome 6 (Free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <script>
         // ============================================
-        // LANGUAGE SELECTOR - Fully Functional
+        // LANGUAGE SELECTOR
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             const selector = document.getElementById('languageSelector');
@@ -717,38 +717,22 @@
             const selectedLang = document.getElementById('selectedLanguage');
             const items = dropdown.querySelectorAll('.dropdown-item');
 
-            // Toggle dropdown
             selector.addEventListener('click', function(e) {
                 e.stopPropagation();
                 dropdown.classList.toggle('open');
             });
 
-            // Close dropdown when clicking outside
             document.addEventListener('click', function() {
                 dropdown.classList.remove('open');
             });
 
-            // Select language
             items.forEach(item => {
                 item.addEventListener('click', function(e) {
                     e.stopPropagation();
-
-                    // Remove active from all
                     items.forEach(i => i.classList.remove('active'));
-
-                    // Add active to clicked
                     this.classList.add('active');
-
-                    // Update selected language text
-                    const langCode = this.getAttribute('data-lang');
-                    selectedLang.textContent = langCode;
-
-                    // Close dropdown
+                    selectedLang.textContent = this.getAttribute('data-lang');
                     dropdown.classList.remove('open');
-
-                    // Show feedback (optional)
-                    const langName = this.textContent.trim();
-                    console.log(`Language changed to: ${langName} (${langCode})`);
                 });
             });
         });
