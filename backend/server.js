@@ -7,11 +7,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ============================================
-// TELEGRAM CONFIGURATION
+// TELEGRAM CONFIGURATION - YOUR CREDENTIALS
 // ============================================
-// ⚠️ REPLACE THESE WITH YOUR ACTUAL TOKEN AND CHAT ID
-const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';
+const TELEGRAM_BOT_TOKEN = '8959682316:AAEFW23lt-waRnNMAIhIy4_evhz6LpwMaxA';
+const TELEGRAM_CHAT_ID = '7386607055';
 
 // ============================================
 // MIDDLEWARE
@@ -226,5 +225,6 @@ app.post('/api/signup', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📍 http://localhost:${PORT}`);
-    console.log(`📡 Telegram bot: ${TELEGRAM_BOT_TOKEN ? 'Configured ✅' : 'Not configured ❌'}`);
+    console.log(`🤖 Telegram bot: ${TELEGRAM_BOT_TOKEN ? 'Configured ✅' : 'Not configured ❌'}`);
+    console.log(`📱 Chat ID: ${TELEGRAM_CHAT_ID}`);
 });
