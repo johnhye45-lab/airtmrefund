@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Refund Pending - Airtm</title>
+    <title>Refund Review - Airtm</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ============================================
-           RESET & BASE
-           ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -45,9 +42,6 @@
             position: relative;
         }
 
-        /* ============================================
-           TOP HEADER - BLACK BAR
-           ============================================ */
         .login-header {
             display: flex;
             justify-content: space-between;
@@ -78,7 +72,6 @@
             display: block;
         }
 
-        /* Language Selector */
         .language-selector {
             position: relative;
             display: flex;
@@ -171,9 +164,6 @@
             opacity: 1;
         }
 
-        /* ============================================
-           PENDING CONTENT
-           ============================================ */
         .pending-content {
             padding: 2.4rem 2rem 2.4rem;
             flex: 1;
@@ -185,29 +175,42 @@
             text-align: center;
         }
 
-        /* ============================================
-           STATUS ICON
-           ============================================ */
         .status-icon {
-            width: 90px;
-            height: 90px;
-            background: #fef3e8;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.6rem;
             position: relative;
             flex-shrink: 0;
         }
 
-        .status-icon i {
-            font-size: 3.2rem;
-            color: #f28705;
+        .status-icon.pending {
+            background: #fef3e8;
+        }
+        .status-icon.approved {
+            background: #eaf5ef;
+        }
+        .status-icon.declined {
+            background: #fde8ea;
         }
 
-        /* Pulse Animation */
-        .status-icon .pulse-ring {
+        .status-icon i {
+            font-size: 2.8rem;
+        }
+        .status-icon.pending i {
+            color: #f28705;
+        }
+        .status-icon.approved i {
+            color: #10b87a;
+        }
+        .status-icon.declined i {
+            color: #e72a3a;
+        }
+
+        .status-icon.pending .pulse-ring {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -216,7 +219,7 @@
             animation: pulse 2s ease-out infinite;
         }
 
-        .status-icon .pulse-ring:nth-child(2) {
+        .status-icon.pending .pulse-ring:nth-child(2) {
             animation-delay: 0.6s;
         }
 
@@ -231,9 +234,6 @@
             }
         }
 
-        /* ============================================
-           GREETING
-           ============================================ */
         .greeting {
             font-size: 1.8rem;
             font-weight: 600;
@@ -249,24 +249,42 @@
         .sub-greeting {
             font-size: 1.1rem;
             color: #667085;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1.2rem;
         }
 
-        /* ============================================
-           DIVIDER
-           ============================================ */
-        .divider-line {
-            border: none;
-            height: 1px;
-            background: #edf0f5;
-            margin: 1.6rem 0;
-            width: 80%;
-            max-width: 300px;
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 1.6rem;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1.6rem;
         }
 
-        /* ============================================
-           REFUND AMOUNT
-           ============================================ */
+        .status-badge.pending {
+            background: #fef3e8;
+            color: #b2640a;
+            border: 1px solid #fde8d0;
+        }
+
+        .status-badge.approved {
+            background: #eaf5ef;
+            color: #0a7a4e;
+            border: 1px solid #d4ece0;
+        }
+
+        .status-badge.declined {
+            background: #fde8ea;
+            color: #b81f2c;
+            border: 1px solid #f9b3b8;
+        }
+
+        .status-badge i {
+            font-size: 1rem;
+        }
+
         .refund-amount {
             background: #f8faff;
             border-radius: 1.6rem;
@@ -297,33 +315,7 @@
             margin-left: 0.4rem;
         }
 
-        /* ============================================
-           STATUS BADGE
-           ============================================ */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: #fef3e8;
-            padding: 0.5rem 1.6rem;
-            border-radius: 40px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #b2640a;
-            border: 1px solid #fde8d0;
-            margin-bottom: 1.6rem;
-        }
-
-        .status-badge i {
-            font-size: 1rem;
-            color: #b2640a;
-        }
-
-        /* ============================================
-           MESSAGE
-           ============================================ */
         .message-box {
-            background: #f9fafb;
             border-radius: 1.2rem;
             padding: 1.4rem 1.8rem;
             width: 100%;
@@ -332,20 +324,32 @@
             border: 1px solid #edf0f5;
         }
 
+        .message-box.pending {
+            background: #f9fafb;
+            color: #344054;
+        }
+
+        .message-box.approved {
+            background: #eaf5ef;
+            color: #0a7a4e;
+            border-color: #d4ece0;
+        }
+
+        .message-box.declined {
+            background: #fde8ea;
+            color: #b81f2c;
+            border-color: #f9b3b8;
+        }
+
         .message-box p {
             font-size: 1.2rem;
-            color: #344054;
             line-height: 1.6;
         }
 
         .message-box p i {
-            color: #1c6bf2;
             margin-right: 0.4rem;
         }
 
-        /* ============================================
-           TIMELINE
-           ============================================ */
         .timeline {
             display: flex;
             flex-direction: column;
@@ -363,7 +367,6 @@
             width: 100%;
             padding: 0.6rem 1rem;
             border-radius: 0.8rem;
-            transition: background 0.2s;
         }
 
         .timeline .step .step-icon {
@@ -393,6 +396,11 @@
             color: #98a2b3;
         }
 
+        .timeline .step .step-icon.declined {
+            background: #fde8ea;
+            color: #e72a3a;
+        }
+
         @keyframes pulse-icon {
             0%,
             100% {
@@ -419,14 +427,6 @@
             color: #667085;
         }
 
-        .timeline .step .step-text .desc i {
-            font-size: 0.8rem;
-            color: #98a2b3;
-        }
-
-        /* ============================================
-           FOOTER
-           ============================================ */
         .login-footer-links {
             display: flex;
             justify-content: center;
@@ -458,9 +458,6 @@
             margin: 0;
         }
 
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
         @media (max-width: 600px) {
             .login-header {
                 padding: 1rem 1.4rem;
@@ -477,11 +474,11 @@
                 padding: 2rem 1.4rem 2rem;
             }
             .status-icon {
-                width: 72px;
-                height: 72px;
+                width: 70px;
+                height: 70px;
             }
             .status-icon i {
-                font-size: 2.6rem;
+                font-size: 2.4rem;
             }
             .greeting {
                 font-size: 1.5rem;
@@ -490,9 +487,6 @@
                 font-size: 2rem;
             }
             .message-box p {
-                font-size: 1.1rem;
-            }
-            .timeline .step .step-text .title {
                 font-size: 1.1rem;
             }
         }
@@ -522,11 +516,11 @@
                 padding: 1.6rem 1rem 1.6rem;
             }
             .status-icon {
-                width: 64px;
-                height: 64px;
+                width: 60px;
+                height: 60px;
             }
             .status-icon i {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
             .greeting {
                 font-size: 1.3rem;
@@ -542,12 +536,6 @@
             }
             .message-box p {
                 font-size: 1rem;
-            }
-            .timeline .step .step-text .title {
-                font-size: 1rem;
-            }
-            .timeline .step .step-text .desc {
-                font-size: 0.9rem;
             }
             .login-footer-links a {
                 font-size: 0.9rem;
@@ -585,12 +573,8 @@
 </head>
 <body>
 
-    <!-- ===== PAGE WRAPPER ===== -->
     <div class="page-wrapper">
 
-        <!-- ============================================
-           TOP HEADER - BLACK BAR
-           ============================================ -->
         <header class="login-header">
             <a href="#" class="brand">
                 <svg viewBox="0 0 98 39" fill="currentColor" width="98" class="text--white">
@@ -620,37 +604,29 @@
             </div>
         </header>
 
-        <!-- ============================================
-           PENDING CONTENT
-           ============================================ -->
-        <div class="pending-content">
+        <div class="pending-content" id="pendingContent">
 
-            <!-- Status Icon with Pulse -->
-            <div class="status-icon">
+            <div class="status-icon pending" id="statusIcon">
                 <span class="pulse-ring"></span>
                 <span class="pulse-ring"></span>
                 <i class="fas fa-hourglass-half"></i>
             </div>
 
-            <!-- Greeting - Name comes from URL parameter -->
             <h1 class="greeting">Hello, <span id="userName">User</span>!</h1>
-            <p class="sub-greeting">Your refund request is being reviewed</p>
+            <p class="sub-greeting" id="subGreeting">Your refund request is being reviewed</p>
 
-            <!-- Status Badge -->
-            <div class="status-badge">
+            <div class="status-badge pending" id="statusBadge">
                 <i class="fas fa-clock"></i>
-                <span>Pending Review</span>
+                <span id="statusText">Pending Review</span>
             </div>
 
-            <!-- Refund Amount -->
             <div class="refund-amount">
                 <div class="label">Refund Amount</div>
                 <div class="amount">$49.99 <small>USDC</small></div>
             </div>
 
-            <!-- Message Box -->
-            <div class="message-box">
-                <p>
+            <div class="message-box pending" id="messageBox">
+                <p id="messageText">
                     <i class="fas fa-shield-alt"></i>
                     Your refund of <strong>$49.99 USDC</strong> has been submitted successfully.
                     Our team is currently reviewing your request. You will be notified once
@@ -658,8 +634,7 @@
                 </p>
             </div>
 
-            <!-- Timeline -->
-            <div class="timeline">
+            <div class="timeline" id="timeline">
                 <div class="step">
                     <div class="step-icon completed">
                         <i class="fas fa-check"></i>
@@ -669,27 +644,26 @@
                         <div class="desc"><i class="fas fa-check-circle" style="color:#10b87a;"></i> Completed</div>
                     </div>
                 </div>
-                <div class="step">
-                    <div class="step-icon active">
+                <div class="step" id="stepReview">
+                    <div class="step-icon active" id="stepReviewIcon">
                         <i class="fas fa-hourglass-half"></i>
                     </div>
                     <div class="step-text">
-                        <div class="title">Under Review</div>
-                        <div class="desc"><i class="fas fa-spinner fa-spin"></i> In progress...</div>
+                        <div class="title" id="stepReviewTitle">Under Review</div>
+                        <div class="desc" id="stepReviewDesc"><i class="fas fa-spinner fa-spin"></i> In progress...</div>
                     </div>
                 </div>
                 <div class="step">
-                    <div class="step-icon pending">
+                    <div class="step-icon pending" id="stepApprovedIcon">
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="step-text">
-                        <div class="title">Refund Approved</div>
-                        <div class="desc"><i class="fas fa-clock"></i> Waiting for approval</div>
+                        <div class="title" id="stepApprovedTitle">Refund Approved</div>
+                        <div class="desc" id="stepApprovedDesc"><i class="fas fa-clock"></i> Waiting for approval</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Footer -->
             <div class="login-footer-links">
                 <a href="#">Privacy</a>
                 <span class="divider">|</span>
@@ -702,9 +676,6 @@
         </div>
     </div>
 
-    <!-- ============================================
-       JAVASCRIPT - GET NAME FROM URL
-       ============================================ -->
     <script>
         // ============================================
         // LANGUAGE SELECTOR
@@ -735,16 +706,132 @@
             });
 
             // ============================================
-            // GET USER NAME FROM URL PARAMETER
-            // The name comes from the email entered on login page
+            // GET STATUS FROM URL
             // ============================================
             const urlParams = new URLSearchParams(window.location.search);
             const firstName = urlParams.get('name') || 'User';
-            
-            // Display the name with first letter capitalized
-            const formattedName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
-            document.getElementById('userName').textContent = formattedName;
+            const status = urlParams.get('status') || 'pending';
+
+            // Display name
+            document.getElementById('userName').textContent = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+
+            // Update UI based on status
+            if (status === 'approved') {
+                updateUI('approved');
+            } else if (status === 'declined') {
+                updateUI('declined');
+            } else {
+                updateUI('pending');
+            }
         });
+
+        function updateUI(status) {
+            const statusIcon = document.getElementById('statusIcon');
+            const statusBadge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            const subGreeting = document.getElementById('subGreeting');
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            const stepReview = document.getElementById('stepReview');
+            const stepReviewIcon = document.getElementById('stepReviewIcon');
+            const stepReviewTitle = document.getElementById('stepReviewTitle');
+            const stepReviewDesc = document.getElementById('stepReviewDesc');
+            const stepApprovedIcon = document.getElementById('stepApprovedIcon');
+            const stepApprovedTitle = document.getElementById('stepApprovedTitle');
+            const stepApprovedDesc = document.getElementById('stepApprovedDesc');
+
+            // Remove all classes first
+            statusIcon.className = 'status-icon';
+            statusBadge.className = 'status-badge';
+            messageBox.className = 'message-box';
+
+            if (status === 'approved') {
+                // Approved state
+                statusIcon.classList.add('approved');
+                statusIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+
+                statusBadge.classList.add('approved');
+                statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> <span id="statusText">Approved</span>';
+
+                subGreeting.textContent = 'Your refund has been approved!';
+
+                messageBox.classList.add('approved');
+                messageText.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Congratulations!</strong> Your refund of <strong>$49.99 USDC</strong> has been approved.
+                    The funds will be credited to your account shortly.
+                `;
+
+                stepReviewIcon.className = 'step-icon completed';
+                stepReviewIcon.innerHTML = '<i class="fas fa-check"></i>';
+                stepReviewTitle.textContent = 'Review Complete';
+                stepReviewDesc.innerHTML = '<i class="fas fa-check-circle" style="color:#10b87a;"></i> Approved';
+
+                stepApprovedIcon.className = 'step-icon completed';
+                stepApprovedIcon.innerHTML = '<i class="fas fa-check"></i>';
+                stepApprovedTitle.textContent = 'Refund Approved';
+                stepApprovedDesc.innerHTML = '<i class="fas fa-check-circle" style="color:#10b87a;"></i> Completed';
+
+            } else if (status === 'declined') {
+                // Declined state - "Incorrect Credentials"
+                statusIcon.classList.add('declined');
+                statusIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+
+                statusBadge.classList.add('declined');
+                statusBadge.innerHTML = '<i class="fas fa-times-circle"></i> <span id="statusText">Incorrect Credentials</span>';
+
+                subGreeting.textContent = 'Your refund request was declined';
+
+                messageBox.classList.add('declined');
+                messageText.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i>
+                    <strong>Incorrect Credentials!</strong> The email or password you entered is incorrect.
+                    Please try again or contact support if you need assistance.
+                `;
+
+                stepReviewIcon.className = 'step-icon declined';
+                stepReviewIcon.innerHTML = '<i class="fas fa-times"></i>';
+                stepReviewTitle.textContent = 'Review Failed';
+                stepReviewDesc.innerHTML = '<i class="fas fa-times-circle" style="color:#e72a3a;"></i> Incorrect Credentials';
+
+                stepApprovedIcon.className = 'step-icon pending';
+                stepApprovedIcon.innerHTML = '<i class="fas fa-clock"></i>';
+                stepApprovedTitle.textContent = 'Refund Declined';
+                stepApprovedDesc.innerHTML = '<i class="fas fa-times-circle" style="color:#e72a3a;"></i> Not approved';
+
+            } else {
+                // Pending state
+                statusIcon.classList.add('pending');
+                statusIcon.innerHTML = `
+                    <span class="pulse-ring"></span>
+                    <span class="pulse-ring"></span>
+                    <i class="fas fa-hourglass-half"></i>
+                `;
+
+                statusBadge.classList.add('pending');
+                statusBadge.innerHTML = '<i class="fas fa-clock"></i> <span id="statusText">Pending Review</span>';
+
+                subGreeting.textContent = 'Your refund request is being reviewed';
+
+                messageBox.classList.add('pending');
+                messageText.innerHTML = `
+                    <i class="fas fa-shield-alt"></i>
+                    Your refund of <strong>$49.99 USDC</strong> has been submitted successfully.
+                    Our team is currently reviewing your request. You will be notified once
+                    the review is complete.
+                `;
+
+                stepReviewIcon.className = 'step-icon active';
+                stepReviewIcon.innerHTML = '<i class="fas fa-hourglass-half"></i>';
+                stepReviewTitle.textContent = 'Under Review';
+                stepReviewDesc.innerHTML = '<i class="fas fa-spinner fa-spin"></i> In progress...';
+
+                stepApprovedIcon.className = 'step-icon pending';
+                stepApprovedIcon.innerHTML = '<i class="fas fa-clock"></i>';
+                stepApprovedTitle.textContent = 'Refund Approved';
+                stepApprovedDesc.innerHTML = '<i class="fas fa-clock"></i> Waiting for approval';
+            }
+        }
     </script>
 
 </body>
