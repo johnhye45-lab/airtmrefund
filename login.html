@@ -2,139 +2,718 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Airtm - Sign up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Airtm - Log in</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* Your existing signup page styles here */
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #f0f2f6;
+            font-family: "Work Sans", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* ============================================
+           PAGE WRAPPER
+           ============================================ */
+        .page-wrapper {
+            width: 100%;
+            max-width: 540px;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        /* ============================================
+           TOP HEADER - BLACK BAR
+           ============================================ */
+        .login-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.6rem 2.4rem;
+            background: #000000;
+            width: 100%;
+            min-height: 7.2rem;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .login-header .brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            height: 4rem;
+        }
+
+        .login-header .brand svg {
+            height: 4rem;
+            width: auto;
+            fill: #ffffff;
+            color: #ffffff;
+            display: block;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 1.4rem 0.6rem 1.6rem;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 4rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            user-select: none;
+        }
+
+        .language-selector:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .language-selector i {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .language-selector .globe-icon {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 0.8rem);
+            right: 0;
+            background: #ffffff;
+            border-radius: 0.8rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            min-width: 18rem;
+            padding: 0.8rem 0;
+            display: none;
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            border: 1px solid #f2f4f7;
+            z-index: 200;
+        }
+
+        .language-dropdown.open {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .language-dropdown .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 0.8rem 1.6rem;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: #101828;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: "Work Sans", "Helvetica Neue", sans-serif;
+        }
+
+        .language-dropdown .dropdown-item:hover {
+            background: #f2f4f7;
+        }
+
+        .language-dropdown .dropdown-item.active {
+            background: #e8eeff;
+            color: #1c6bf2;
+            font-weight: 500;
+        }
+
+        .language-dropdown .dropdown-item .check-icon {
+            margin-left: auto;
+            color: #1c6bf2;
+            font-size: 1.2rem;
+            opacity: 0;
+        }
+
+        .language-dropdown .dropdown-item.active .check-icon {
+            opacity: 1;
+        }
+
+        /* ============================================
+           LOGIN CONTENT
+           ============================================ */
+        .login-content {
+            padding: 2.4rem 2.4rem 3.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background: #ffffff;
+        }
+
+        /* ============================================
+           TITLES
+           ============================================ */
+        .form-title {
+            font-size: 3.6rem;
+            font-weight: 700;
+            color: #0b1a33;
+            margin-bottom: 0.8rem;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .form-subtitle {
+            font-size: 1.6rem;
+            color: #667085;
+            margin-bottom: 3.2rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           FORM
+           ============================================ */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* ============================================
+           INPUT GROUP
+           ============================================ */
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 1.6rem;
+            left: 1.4rem;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #667085;
+            pointer-events: none;
+            transition: all 0.15s ease-out;
+            background: #ffffff;
+            padding: 0 0.4rem;
+            transform-origin: left top;
+            line-height: 1.2;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 2rem 1.4rem 0.6rem 1.4rem;
+            border: 1.5px solid #d0d5dd;
+            border-radius: 0.8rem;
+            font-size: 1.5rem;
+            font-family: "Work Sans", "Helvetica Neue", sans-serif;
+            background: #ffffff;
+            color: #0b1a33;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            outline: none;
+            height: 5.6rem;
+            line-height: 1.4;
+        }
+
+        .input-group input:focus {
+            border-color: #1c6bf2;
+            border-width: 2px;
+            box-shadow: 0 0 0 3px rgba(28, 107, 242, 0.12);
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: 0.6rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #1c6bf2;
+        }
+
+        .input-group input:not(:focus) + label {
+            color: #667085;
+        }
+
+        .input-group input::placeholder {
+            color: transparent;
+        }
+
+        .input-group .helper-text {
+            font-size: 1.2rem;
+            color: #98a2b3;
+            margin-top: 0.6rem;
+            padding: 0 0.4rem;
+            line-height: 1.4;
+        }
+
+        /* ============================================
+           FORGOT PASSWORD
+           ============================================ */
+        .form-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -0.4rem;
+            width: 100%;
+        }
+
+        .form-options a {
+            font-size: 1.35rem;
+            font-weight: 500;
+            color: #1c6bf2;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .form-options a:hover {
+            color: #0f4fc9;
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           BUTTON
+           ============================================ */
+        .btn-primary {
+            display: block;
+            width: 100%;
+            background: #1c6bf2;
+            color: #ffffff;
+            border: none;
+            border-radius: 3.2rem;
+            padding: 1rem 2.8rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+            font-family: "Work Sans", "Helvetica Neue", sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 5.2rem;
+            letter-spacing: 0.01em;
+            box-shadow: 0 4px 16px rgba(28, 107, 242, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #0f4fc9;
+            box-shadow: 0 8px 28px rgba(28, 107, 242, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============================================
+           SIGNUP LINK
+           ============================================ */
+        .signup-link {
+            text-align: center;
+            margin-top: 1.6rem;
+            font-size: 1.4rem;
+            color: #667085;
+        }
+
+        .signup-link a {
+            color: #1c6bf2;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .signup-link a:hover {
+            color: #0f4fc9;
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .login-footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.6rem;
+            margin-top: 3.2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #edf0f5;
+            width: 100%;
+        }
+
+        .login-footer-links a {
+            font-size: 1.2rem;
+            color: #98a2b3;
+            text-decoration: none;
+            transition: color 0.15s;
+            font-weight: 400;
+        }
+
+        .login-footer-links a:hover {
+            color: #1c6bf2;
+        }
+
+        .login-footer-links .divider {
+            color: #d0d5dd;
+            font-size: 1.4rem;
+        }
+
+        /* ============================================
+           RIGHT COLUMN - BRANDING
+           ============================================ */
+        .login-image-column {
+            display: none;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 600px) {
+            .login-header {
+                padding: 1.2rem 1.6rem;
+                min-height: 6.4rem;
+            }
+
+            .login-header .brand svg {
+                height: 3.2rem;
+            }
+
+            .language-selector {
+                font-size: 1.2rem;
+                padding: 0.4rem 1rem 0.4rem 1.2rem;
+            }
+
+            .login-content {
+                padding: 2rem 1.8rem 2.4rem;
+            }
+
+            .form-title {
+                font-size: 2.8rem;
+            }
+
+            .form-subtitle {
+                font-size: 1.4rem;
+                margin-bottom: 2.4rem;
+            }
+
+            .input-group input {
+                height: 5rem;
+                font-size: 1.4rem;
+                padding: 1.8rem 1.2rem 0.4rem 1.2rem;
+            }
+
+            .input-group label {
+                font-size: 1.3rem;
+                top: 1.4rem;
+                left: 1.2rem;
+            }
+
+            .input-group input:focus + label,
+            .input-group input:not(:placeholder-shown) + label {
+                top: 0.4rem;
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                height: 4.8rem;
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .login-header {
+                padding: 1rem 1.2rem;
+                min-height: 5.6rem;
+            }
+
+            .login-header .brand svg {
+                height: 2.8rem;
+            }
+
+            .language-selector {
+                font-size: 1.1rem;
+                padding: 0.3rem 0.8rem 0.3rem 1rem;
+                gap: 0.4rem;
+            }
+
+            .language-dropdown {
+                min-width: 14rem;
+                right: -0.8rem;
+            }
+
+            .language-dropdown .dropdown-item {
+                font-size: 1.2rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .login-content {
+                padding: 1.6rem 1.2rem 2rem;
+            }
+
+            .form-title {
+                font-size: 2.4rem;
+            }
+
+            .form-subtitle {
+                font-size: 1.3rem;
+                margin-bottom: 2rem;
+            }
+
+            .input-group input {
+                height: 4.6rem;
+                font-size: 1.3rem;
+                padding: 1.6rem 1rem 0.4rem 1rem;
+            }
+
+            .input-group label {
+                font-size: 1.2rem;
+                top: 1.2rem;
+                left: 1rem;
+            }
+
+            .input-group input:focus + label,
+            .input-group input:not(:placeholder-shown) + label {
+                top: 0.3rem;
+                font-size: 0.9rem;
+            }
+
+            .btn-primary {
+                height: 4.4rem;
+                font-size: 1.3rem;
+            }
+
+            .login-footer-links a {
+                font-size: 1rem;
+            }
+
+            .signup-link {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (min-width: 601px) {
+            body {
+                padding: 2rem;
+                align-items: center;
+            }
+
+            .page-wrapper {
+                border-radius: 32px;
+                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.07), 0 8px 32px rgba(0, 0, 0, 0.03);
+                border: 1px solid #f0f2f5;
+                min-height: auto;
+                max-height: 98vh;
+                overflow-y: auto;
+                flex-direction: row;
+                max-width: 900px;
+            }
+
+            .login-header {
+                border-radius: 32px 32px 0 0;
+            }
+
+            .login-content {
+                padding: 2.4rem 3.2rem 3.2rem;
+                flex: 1;
+            }
+
+            .login-image-column {
+                display: flex;
+                flex: 1;
+                background: #f5f8ff;
+                align-items: center;
+                justify-content: center;
+                padding: 3rem;
+                border-radius: 0 32px 32px 0;
+            }
+
+            .brand-card {
+                width: 100%;
+                max-width: 32rem;
+                padding: 3.2rem 2.4rem;
+                background: #ffffff;
+                border-radius: 1.6rem;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+                text-align: center;
+            }
+
+            .brand-card .logo-icon {
+                font-size: 4rem;
+                color: #1c6bf2;
+                margin-bottom: 1.2rem;
+                display: block;
+            }
+
+            .brand-card h2 {
+                font-size: 2rem;
+                font-weight: 600;
+                color: #0b1a33;
+                margin-bottom: 0.6rem;
+            }
+
+            .brand-card p {
+                font-size: 1.3rem;
+                color: #667085;
+                line-height: 1.6;
+            }
+
+            .brand-card .features {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+
+            .brand-card .features span {
+                font-size: 1.1rem;
+                color: #667085;
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+            }
+
+            .brand-card .features i {
+                color: #10b87a;
+            }
+
+            .page-wrapper {
+                flex-direction: column;
+                max-width: 560px;
+            }
+
+            .login-image-column {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-wrapper {
+                max-width: 600px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- ===== SIGNUP FORM ===== -->
-    <div class="login-page">
-        <div class="login-form-column">
-            <div class="login-header">
-                <a href="#" class="brand">
-                    <svg viewBox="0 0 98 39" fill="currentColor" width="98" class="text--white">
-                        <!-- Your SVG Logo Here -->
-                    </svg>
-                </a>
-                <div class="language-selector" id="languageSelector">
-                    <i class="fas fa-globe globe-icon"></i>
-                    <span id="selectedLanguage">EN</span>
-                    <i class="fas fa-chevron-down"></i>
-                    <div class="language-dropdown" id="languageDropdown">
-                        <button class="dropdown-item active" data-lang="EN">English <i class="fas fa-check check-icon"></i></button>
-                        <button class="dropdown-item" data-lang="ES">Español <i class="fas fa-check check-icon"></i></button>
-                        <button class="dropdown-item" data-lang="PT">Português <i class="fas fa-check check-icon"></i></button>
-                    </div>
+    <!-- ===== PAGE WRAPPER ===== -->
+    <div class="page-wrapper">
+
+        <!-- ============================================
+           TOP HEADER - BLACK BAR
+           ============================================ -->
+        <header class="login-header">
+            <a href="#" class="brand">
+                <svg viewBox="0 0 98 39" fill="currentColor" width="98" class="text--white">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M28.6946 0.795593H24.5919V22.0357H28.6946V0.795593ZM5.46951 17.6468L11.1472 5.91808L14.2697 12.3606L5.46951 17.6474V17.6468ZM23.164 22.0603L19.1688 13.8184L23.0611 11.4801L21.0654 8.2775L17.5169 10.4094L13.6284 2.38616C13.3904 1.89447 13.0272 1.48678 12.5783 1.20645C12.1261 0.925006 11.6072 0.782617 11.0771 0.796523C10.5465 0.809872 10.0343 0.978402 9.59598 1.2832C9.17716 1.57466 8.84343 1.9818 8.62818 2.46236L0.83579 18.5601L0.817435 18.6035C0.299055 19.826 0.642232 21.211 1.67121 22.0509C2.68127 22.8752 4.074 22.9452 5.15915 22.235L15.9222 15.7696L18.9713 22.0609H23.164V22.0603ZM35.3001 10.7275H41.3942V10.728C44.532 10.728 45.5879 9.08269 45.5879 7.22757C45.5879 5.37246 44.532 3.84722 41.4244 3.84722H35.3001V10.7275ZM42.1789 0.795593C48.0319 0.795593 49.9022 3.90699 49.9022 7.19769C49.9022 9.68037 48.6051 12.2533 45.1051 13.151L50.626 22.0357H45.9797L40.8512 13.6894H35.3001V22.0357H31.1974V0.795593H42.1789ZM51.1385 4.08629H58.9521V22.0357H63.056V4.08629H70.8696V0.795593H51.1385V4.08629ZM78.795 0.795593H72.731H72.7305V22.0357H76.4414V6.6592C76.4414 5.70176 76.3811 4.83397 76.2907 4.08629H76.4112C76.5318 4.65524 76.8337 5.7621 77.1357 6.56955L83.2298 22.0363H87.0914L93.1855 6.56955C93.5175 5.76153 93.8792 4.56501 93.9702 4.08629H94.0907C94.0003 4.86443 93.94 5.79141 93.94 6.6592V22.0357H97.7715V0.795593H91.6473L85.8847 15.6037C85.5532 16.5008 85.3718 17.0393 85.2513 17.7577H85.191C85.0838 17.1195 84.929 16.6466 84.6837 15.8976C84.6531 15.8043 84.6212 15.7066 84.5877 15.6037L78.795 0.795593Z"></path>
+                    <path d="M0 38.356V31.1098H5.23451V31.9332H0.904452V34.2718H4.27353V35.0952H0.904452V37.5326H5.4041V38.356H0Z"></path>
+                    <path d="M16.4576 31.1098V38.356H15.3383L12.218 33.5032L11.4266 32.1418H11.4153L11.4605 33.2397V38.356H10.6013V31.1098H11.7205L14.8296 35.9406L15.6323 37.335H15.6436L15.5983 36.2261V31.1098H16.4576Z"></path>
+                    <path d="M27.5414 31.1098V31.9332H24.9411V38.356H24.0366V31.9332H21.4363V31.1098H27.5414Z"></path>
+                    <path d="M32.5104 38.356V31.1098H37.7449V31.9332H33.4148V34.2718H36.7839V35.0952H33.4148V37.5326H37.9145V38.356H32.5104Z"></path>
+                    <path d="M45.938 31.1098C46.6993 31.1098 47.3098 31.3001 47.7695 31.6807C48.2293 32.0613 48.4592 32.5773 48.4592 33.2288C48.4592 33.8802 48.2255 34.3889 47.7582 34.7549C47.2985 35.1135 46.688 35.2928 45.9267 35.2928L45.8476 35.3477H44.0161V38.356H43.1116V31.1098H45.938ZM45.9267 34.5243C46.4619 34.5243 46.8575 34.4182 47.1138 34.2059C47.3776 33.9863 47.5095 33.6606 47.5095 33.2288C47.5095 32.7969 47.3776 32.4749 47.1138 32.2626C46.8575 32.043 46.4619 31.9332 45.9267 31.9332H44.0161V34.5243H45.9267ZM46.4468 34.7L48.9114 38.356H47.8374L45.6893 35.183L46.4468 34.7Z"></path>
+                    <path d="M56.6562 31.1098C57.1612 31.1098 57.5984 31.2013 57.9677 31.3843C58.3445 31.5599 58.6385 31.8125 58.8495 32.1418C59.0606 32.4712 59.1661 32.8628 59.1661 33.3166C59.1661 33.7704 59.0606 34.162 58.8495 34.4914C58.6385 34.8207 58.3445 35.0769 57.9677 35.2599C57.5984 35.4356 57.1612 35.5234 56.6562 35.5234H54.9265V38.356H54.022V31.1098H56.6562ZM56.5205 34.7C57.1084 34.7 57.5381 34.5829 57.8094 34.3486C58.0807 34.1071 58.2164 33.7631 58.2164 33.3166C58.2164 32.8628 58.0807 32.5188 57.8094 32.2846C57.5381 32.0503 57.1084 31.9332 56.5205 31.9332H54.9265V34.7H56.5205Z"></path>
+                    <path d="M67.1405 31.1098C67.9018 31.1098 68.5123 31.3001 68.972 31.6807C69.4318 32.0613 69.6617 32.5773 69.6617 33.2288C69.6617 33.8802 69.428 34.3889 68.9607 34.7549C68.501 35.1135 67.8905 35.2928 67.1292 35.2928L67.0501 35.3477H65.2186V38.356H64.3141V31.1098H67.1405ZM67.1292 34.5243C67.6644 34.5243 68.0601 34.4182 68.3163 34.2059C68.5801 33.9863 68.712 33.6606 68.712 33.2288C68.712 32.7969 68.5801 32.4749 68.3163 32.2626C68.0601 32.043 67.6644 31.9332 67.1292 31.9332H65.2186V34.5243H67.1292ZM67.6493 34.7L70.1139 38.356H69.0399L66.8918 35.183L67.6493 34.7Z"></path>
+                    <path d="M76.129 31.1098V38.356H75.2245V31.1098H76.129Z"></path>
+                    <path d="M84.3583 31C85.014 31 85.5793 31.1317 86.0542 31.3952C86.529 31.6514 86.9247 32.032 87.2413 32.5371L86.4838 33.108C86.2049 32.6395 85.8883 32.3102 85.5341 32.1199C85.1874 31.9222 84.7653 31.8234 84.2679 31.8234C83.8684 31.8234 83.5368 31.8783 83.273 31.9881C83.0167 32.0979 82.8283 32.2443 82.7077 32.4273C82.5871 32.603 82.5268 32.8042 82.5268 33.0311C82.5268 33.2873 82.6097 33.5142 82.7755 33.7118C82.9413 33.9021 83.273 34.0522 83.7704 34.162L85.3871 34.5133C86.1032 34.667 86.6006 34.9012 86.8795 35.216C87.1659 35.5234 87.3091 35.9077 87.3091 36.3688C87.3091 36.7787 87.1885 37.1446 86.9473 37.4667C86.7137 37.7814 86.382 38.0266 85.9524 38.2023C85.5228 38.378 85.0178 38.4658 84.4375 38.4658C83.8948 38.4658 83.4162 38.3963 83.0016 38.2572C82.5946 38.1108 82.2442 37.9168 81.9502 37.6753C81.6563 37.4338 81.4151 37.1629 81.2266 36.8629L82.018 36.237C82.1613 36.5152 82.3459 36.7604 82.572 36.9726C82.7981 37.1849 83.0695 37.3496 83.386 37.4667C83.7101 37.5838 84.0794 37.6424 84.494 37.6424C84.8784 37.6424 85.21 37.5985 85.4889 37.5106C85.7753 37.4155 85.9939 37.2801 86.1446 37.1044C86.2953 36.9214 86.3707 36.7018 86.3707 36.4456C86.3707 36.2114 86.2916 36.0028 86.1333 35.8198C85.975 35.6295 85.6773 35.4868 85.2402 35.3916L83.4878 35.0074C83.028 34.9049 82.6549 34.7658 82.3685 34.5902C82.0897 34.4072 81.8861 34.1949 81.758 33.9534C81.6374 33.7045 81.5771 33.4374 81.5771 33.1519C81.5771 32.764 81.6864 32.409 81.905 32.0869C82.1311 31.7576 82.4514 31.4941 82.866 31.2964C83.288 31.0988 83.7855 31 84.3583 31Z"></path>
+                    <path d="M92.5959 38.356V31.1098H97.8304V31.9332H93.5004V34.2718H96.8694V35.0952H93.5004V37.5326H98V38.356H92.5959Z"></path>
+                </svg>
+            </a>
+
+            <div class="language-selector" id="languageSelector">
+                <i class="fas fa-globe globe-icon"></i>
+                <span id="selectedLanguage">EN</span>
+                <i class="fas fa-chevron-down"></i>
+                <div class="language-dropdown" id="languageDropdown">
+                    <button class="dropdown-item active" data-lang="EN">English <i class="fas fa-check check-icon"></i></button>
+                    <button class="dropdown-item" data-lang="ES">Español <i class="fas fa-check check-icon"></i></button>
+                    <button class="dropdown-item" data-lang="PT">Português <i class="fas fa-check check-icon"></i></button>
                 </div>
             </div>
+        </header>
 
-            <h2 class="signup-title">Create an account</h2>
-            <p class="signup-subtitle">Sign up with your business email:</p>
+        <!-- ============================================
+           LOGIN CONTENT
+           ============================================ -->
+        <div class="login-content">
 
-            <form class="signup-form" id="signupForm">
+            <!-- TITLE -->
+            <h1 class="form-title">LOG IN</h1>
+            <p class="form-subtitle">Enter the email address associated with your account.</p>
+
+            <!-- FORM -->
+            <form class="login-form" id="loginForm">
+                <!-- Email -->
                 <div class="input-group">
-                    <input type="email" id="signupEmail" placeholder=" " required>
-                    <label for="signupEmail">Enter your email</label>
-                    <span class="helper-text">example@gmail.com</span>
+                    <input type="email" id="loginEmail" placeholder=" " required>
+                    <label for="loginEmail">Your email</label>
+                    <span class="helper-text">Enter the email address associated with your account.</span>
                 </div>
 
+                <!-- Password -->
                 <div class="input-group">
-                    <input type="password" id="signupPassword" placeholder=" " required>
-                    <label for="signupPassword">Choose your password</label>
+                    <input type="password" id="loginPassword" placeholder=" " required>
+                    <label for="loginPassword">Password</label>
                 </div>
 
-                <div class="password-requirements">
-                    <div class="req-title">Password must contain the following:</div>
-                    <ul class="req-list">
-                        <li><span class="req-icon">•</span> 1 number</li>
-                        <li><span class="req-icon">•</span> 1 letter</li>
-                        <li><span class="req-icon">•</span> 1 special character (@!#$%^&*-=+)</li>
-                        <li><span class="req-icon">•</span> 8 characters</li>
-                    </ul>
+                <!-- Forgot Password -->
+                <div class="form-options">
+                    <a href="#">Forgot your password?</a>
                 </div>
 
-                <div class="input-group">
-                    <input type="password" id="signupConfirmPassword" placeholder=" " required>
-                    <label for="signupConfirmPassword">Confirm your password</label>
-                    <span class="helper-text">Confirm your password</span>
-                </div>
-
-                <div class="input-group">
-                    <select id="signupCountry" required>
-                        <option value="" disabled selected></option>
-                        <option value="US">United States</option>
-                        <option value="UK">United Kingdom</option>
-                        <option value="CA">Canada</option>
-                        <option value="AU">Australia</option>
-                        <option value="DE">Germany</option>
-                        <option value="FR">France</option>
-                        <option value="BR">Brazil</option>
-                        <option value="MX">Mexico</option>
-                        <option value="AR">Argentina</option>
-                        <option value="CO">Colombia</option>
-                        <option value="PE">Peru</option>
-                        <option value="CL">Chile</option>
-                        <option value="ES">Spain</option>
-                        <option value="IT">Italy</option>
-                        <option value="PT">Portugal</option>
-                        <option value="IN">India</option>
-                        <option value="SG">Singapore</option>
-                        <option value="JP">Japan</option>
-                        <option value="CN">China</option>
-                        <option value="ZA">South Africa</option>
-                        <option value="NG">Nigeria</option>
-                        <option value="KE">Kenya</option>
-                        <option value="EG">Egypt</option>
-                        <option value="AE">United Arab Emirates</option>
-                        <option value="SA">Saudi Arabia</option>
-                    </select>
-                    <label for="signupCountry">Country</label>
-                    <span class="helper-text">Country...</span>
-                </div>
-
-                <div class="input-group">
-                    <input type="text" id="signupBusinessName" placeholder=" " required>
-                    <label for="signupBusinessName">Legal business name</label>
-                    <span class="helper-text">Enter your legal business name</span>
-                </div>
-
-                <div class="input-group">
-                    <select id="signupEntityType" required>
-                        <option value="" disabled selected></option>
-                        <option value="Sole Proprietorship">Sole Proprietorship</option>
-                        <option value="LLC">LLC</option>
-                        <option value="Corporation">Corporation</option>
-                        <option value="Partnership">Partnership</option>
-                        <option value="Non-Profit">Non-Profit</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <label for="signupEntityType">Entity type</label>
-                    <span class="helper-text">Enter your entity type</span>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="termsCheckbox" required>
-                    <label for="termsCheckbox">
-                        I have read and agree to Airtm's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-                    </label>
-                </div>
-
-                <button type="submit" class="btn-primary" id="signupBtn">
-                    <i class="fas fa-user-plus"></i> Create account
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Log in
                 </button>
             </form>
 
-            <div class="login-link">
-                Already have an account? <a href="login.html">Log in</a>
+            <!-- Signup Link -->
+            <div class="signup-link">
+                Not registered yet? <a href="signup.html">Create an account</a>
             </div>
 
+            <!-- Footer -->
             <div class="login-footer-links">
                 <a href="#">Privacy</a>
                 <span class="divider">|</span>
@@ -146,6 +725,9 @@
             </div>
         </div>
 
+        <!-- ============================================
+           RIGHT COLUMN - BRANDING (Desktop)
+           ============================================ -->
         <div class="login-image-column">
             <div class="brand-card">
                 <i class="fas fa-shield-alt logo-icon"></i>
@@ -160,6 +742,9 @@
         </div>
     </div>
 
+    <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
     <script>
         // ============================================
         // LANGUAGE SELECTOR
@@ -191,58 +776,49 @@
         });
 
         // ============================================
-        // SIGNUP FORM - SEND TO BACKEND
+        // LOGIN FORM - SEND TO BACKEND
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            const signupForm = document.getElementById('signupForm');
-            const signupBtn = document.getElementById('signupBtn');
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const emailInput = document.getElementById('loginEmail');
+            const passwordInput = document.getElementById('loginPassword');
 
-            signupForm.addEventListener('submit', async function(e) {
+            loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                const email = document.getElementById('signupEmail').value.trim();
-                const password = document.getElementById('signupPassword').value.trim();
-                const confirmPassword = document.getElementById('signupConfirmPassword').value.trim();
-                const country = document.getElementById('signupCountry').value;
-                const businessName = document.getElementById('signupBusinessName').value.trim();
-                const entityType = document.getElementById('signupEntityType').value;
-                const termsAccepted = document.getElementById('termsCheckbox').checked;
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
 
-                if (!email || !password || !confirmPassword || !country || !businessName || !entityType) {
+                // Validation
+                if (!email || !password) {
                     alert('Please fill in all fields');
                     return;
                 }
 
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match');
+                // Simple email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address');
                     return;
                 }
 
-                if (!termsAccepted) {
-                    alert('You must accept the Terms of Service');
+                if (password.length < 6) {
+                    alert('Password must be at least 6 characters');
                     return;
                 }
 
                 // Show loading state
-                signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
-                signupBtn.disabled = true;
-                signupBtn.style.opacity = '0.8';
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+                loginBtn.disabled = true;
 
                 try {
-                    const response = await fetch('/api/signup', {
+                    const response = await fetch('/api/login', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ 
-                            email, 
-                            password, 
-                            confirmPassword, 
-                            country, 
-                            businessName, 
-                            entityType,
-                            termsAccepted 
-                        })
+                        body: JSON.stringify({ email, password })
                     });
 
                     const data = await response.json();
@@ -250,17 +826,15 @@
                     if (data.success) {
                         window.location.href = data.redirect || '/refund';
                     } else {
-                        alert(data.message || 'Signup failed. Please try again.');
-                        signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create account';
-                        signupBtn.disabled = false;
-                        signupBtn.style.opacity = '1';
+                        alert(data.message || 'Login failed. Please try again.');
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
+                        loginBtn.disabled = false;
                     }
                 } catch (error) {
-                    console.error('Signup error:', error);
+                    console.error('Login error:', error);
                     alert('Network error. Please check your connection.');
-                    signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create account';
-                    signupBtn.disabled = false;
-                    signupBtn.style.opacity = '1';
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log in';
+                    loginBtn.disabled = false;
                 }
             });
         });
