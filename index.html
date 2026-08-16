@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Refund Confirmation - Airtm</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* ============================================
-           RESET & BASE
+           RESET & BASE - FULL WIDTH
            ============================================ */
         * {
             margin: 0;
@@ -18,31 +18,41 @@
             box-sizing: border-box;
         }
 
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: "Work Sans", "Helvetica Neue", sans-serif;
             background: #f0f2f6;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            min-height: 100vh;
+            padding: 0;
         }
 
         /* ============================================
-           MAIN WRAPPER
+           MAIN WRAPPER - FULL WIDTH ON MOBILE
            ============================================ */
         .page-wrapper {
-            max-width: 540px;
             width: 100%;
+            max-width: 540px;
             background: #ffffff;
-            border-radius: 32px;
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.07), 0 8px 32px rgba(0, 0, 0, 0.03);
             overflow: hidden;
-            border: 1px solid #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0 auto;
+            position: relative;
         }
 
         /* ============================================
-           TOP HEADER - BLACK BACKGROUND
+           TOP HEADER - BLACK BAR (FULL WIDTH)
            ============================================ */
         .login-header {
             display: flex;
@@ -52,6 +62,9 @@
             background: #000000;
             width: 100%;
             min-height: 6.4rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10;
         }
 
         .login-header .brand {
@@ -59,6 +72,7 @@
             align-items: center;
             text-decoration: none;
             height: 3.9rem;
+            flex-shrink: 0;
         }
 
         .login-header .brand svg {
@@ -66,10 +80,7 @@
             width: auto;
             fill: #ffffff;
             color: #ffffff;
-        }
-
-        .login-header .brand svg .text--white {
-            fill: #ffffff;
+            display: block;
         }
 
         /* Language Selector */
@@ -88,6 +99,7 @@
             transition: background 0.2s ease;
             border: 1px solid rgba(255, 255, 255, 0.08);
             user-select: none;
+            flex-shrink: 0;
         }
 
         .language-selector:hover {
@@ -118,6 +130,7 @@
             transform: translateY(-4px);
             transition: opacity 0.2s ease, transform 0.2s ease;
             border: 1px solid #f2f4f7;
+            z-index: 100;
         }
 
         .language-dropdown.open {
@@ -165,10 +178,15 @@
         }
 
         /* ============================================
-           CARD CONTENT
+           REFUND CONTENT
            ============================================ */
         .refund-content {
-            padding: 2.4rem 3.2rem 2.4rem;
+            padding: 2.4rem 2.4rem 2.4rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
         }
 
         /* ============================================
@@ -179,11 +197,13 @@
             align-items: flex-start;
             gap: 1.2rem;
             margin-bottom: 2.4rem;
+            width: 100%;
         }
 
         .refund-header .icon-wrapper {
             width: 52px;
             height: 52px;
+            min-width: 52px;
             background: #eef3fe;
             border-radius: 50%;
             display: flex;
@@ -196,6 +216,7 @@
 
         .refund-header .title-group {
             flex: 1;
+            min-width: 0;
         }
 
         .refund-header .title-group h1 {
@@ -204,12 +225,14 @@
             color: #0b1a33;
             letter-spacing: -0.02em;
             line-height: 1.2;
+            word-break: break-word;
         }
 
         .refund-header .title-group .sub {
             font-size: 1.25rem;
             color: #667085;
             font-weight: 400;
+            display: block;
         }
 
         .refund-header .badge {
@@ -244,6 +267,7 @@
             display: flex;
             align-items: flex-start;
             gap: 1.2rem;
+            width: 100%;
         }
 
         .status-banner .status-icon {
@@ -258,6 +282,7 @@
             font-weight: 400;
             color: #4a3a1a;
             line-height: 1.6;
+            flex: 1;
         }
 
         .status-banner .status-text strong {
@@ -278,6 +303,7 @@
             height: 1px;
             background: #edf0f5;
             margin: 2rem 0;
+            width: 100%;
         }
 
         /* ============================================
@@ -289,18 +315,21 @@
             padding: 1.6rem 2rem;
             margin: 0.4rem 0 1.6rem 0;
             border: 1px solid #edf2f8;
+            width: 100%;
         }
 
         .amount-section .amount-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .amount-section .amount-row .label {
             font-size: 1.3rem;
             color: #667085;
             font-weight: 400;
+            flex-shrink: 0;
         }
 
         .amount-section .amount-row .value {
@@ -308,6 +337,8 @@
             font-weight: 700;
             color: #0b1a33;
             letter-spacing: -0.01em;
+            text-align: right;
+            margin-left: 1rem;
         }
 
         .amount-section .amount-row .value small {
@@ -326,6 +357,7 @@
             align-items: center;
             padding: 0.6rem 0;
             border-bottom: 1px solid #f5f7fa;
+            width: 100%;
         }
 
         .detail-row:last-of-type {
@@ -336,6 +368,7 @@
             font-size: 1.3rem;
             color: #667085;
             font-weight: 400;
+            flex-shrink: 0;
         }
 
         .detail-row .value {
@@ -344,7 +377,8 @@
             color: #0b1a33;
             text-align: right;
             word-break: break-word;
-            max-width: 58%;
+            margin-left: 1rem;
+            flex: 1;
         }
 
         .detail-row .value.highlight {
@@ -361,6 +395,8 @@
             background: #f5f7fb;
             padding: 0.2rem 0.8rem;
             border-radius: 6px;
+            display: inline-block;
+            text-align: right;
         }
 
         /* ============================================
@@ -378,6 +414,7 @@
             color: #0a7a4e;
             font-weight: 500;
             border: 1px solid #d4ece0;
+            align-self: flex-start;
         }
 
         .protected-badge i {
@@ -390,6 +427,7 @@
            ============================================ */
         .refund-actions {
             margin-top: 2.8rem;
+            width: 100%;
         }
 
         .refund-actions .btn-claim {
@@ -434,7 +472,6 @@
             transform: translateX(4px);
         }
 
-        /* Loading state */
         .refund-actions .btn-claim.loading {
             background: #0f4fc9;
             cursor: default;
@@ -447,11 +484,14 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        /* Success state */
         .refund-actions .btn-claim.success {
             background: #10b87a;
             box-shadow: 0 4px 16px rgba(16, 184, 122, 0.3);
@@ -488,7 +528,7 @@
         }
 
         /* ============================================
-           FOOTER - CLEAN & MINIMAL
+           FOOTER
            ============================================ */
         .refund-footer {
             margin-top: 2.8rem;
@@ -498,6 +538,7 @@
             flex-direction: column;
             align-items: center;
             gap: 0.8rem;
+            width: 100%;
         }
 
         .refund-footer .footer-divider {
@@ -543,6 +584,7 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            max-width: 90%;
         }
 
         .toast.show {
@@ -561,94 +603,6 @@
         /* ============================================
            RESPONSIVE
            ============================================ */
-        @media (max-width: 600px) {
-            body {
-                padding: 1.2rem;
-            }
-
-            .login-header {
-                padding: 1.2rem 1.6rem;
-                min-height: 5.6rem;
-            }
-
-            .login-header .brand svg {
-                height: 3.2rem;
-            }
-
-            .language-selector {
-                font-size: 1.2rem;
-                padding: 0.4rem 1rem 0.4rem 1.2rem;
-            }
-
-            .refund-content {
-                padding: 2rem 1.8rem 2rem;
-            }
-
-            .refund-header {
-                flex-wrap: wrap;
-            }
-
-            .refund-header .title-group h1 {
-                font-size: 1.6rem;
-            }
-
-            .refund-header .badge {
-                font-size: 0.9rem;
-                padding: 0.2rem 1rem;
-            }
-
-            .refund-header .icon-wrapper {
-                width: 44px;
-                height: 44px;
-                font-size: 1.5rem;
-            }
-
-            .status-banner {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.6rem;
-                padding: 1.2rem 1.4rem;
-            }
-
-            .status-banner .status-icon {
-                font-size: 1.6rem;
-            }
-
-            .status-banner .status-text {
-                font-size: 1.25rem;
-            }
-
-            .amount-section .amount-row .value {
-                font-size: 1.7rem;
-            }
-
-            .detail-row .value {
-                font-size: 1.25rem;
-                max-width: 55%;
-            }
-
-            .refund-actions .btn-claim {
-                font-size: 1.3rem;
-                padding: 1rem 1.6rem;
-            }
-
-            .protected-badge {
-                font-size: 1.05rem;
-                padding: 0.4rem 1.2rem 0.4rem 1rem;
-            }
-
-            .refund-footer .footer-copyright {
-                font-size: 1rem;
-            }
-
-            .toast {
-                font-size: 1.1rem;
-                padding: 0.8rem 1.6rem;
-                bottom: 1.2rem;
-                width: 90%;
-            }
-        }
-
         @media (max-width: 400px) {
             .login-header {
                 padding: 1rem 1.2rem;
@@ -679,18 +633,53 @@
                 padding: 1.6rem 1.2rem 1.6rem;
             }
 
+            .refund-header {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+
             .refund-header .title-group h1 {
                 font-size: 1.3rem;
+            }
+
+            .refund-header .title-group .sub {
+                font-size: 1rem;
             }
 
             .refund-header .icon-wrapper {
                 width: 38px;
                 height: 38px;
+                min-width: 38px;
                 font-size: 1.2rem;
+            }
+
+            .refund-header .badge {
+                font-size: 0.7rem;
+                padding: 0.15rem 0.6rem;
+            }
+
+            .status-banner {
+                padding: 1rem 1.2rem;
+            }
+
+            .status-banner .status-icon {
+                font-size: 1.4rem;
+            }
+
+            .status-banner .status-text {
+                font-size: 1.1rem;
+            }
+
+            .amount-section {
+                padding: 1.2rem 1.4rem;
             }
 
             .amount-section .amount-row .value {
                 font-size: 1.4rem;
+            }
+
+            .amount-section .amount-row .value small {
+                font-size: 1rem;
             }
 
             .detail-row {
@@ -703,15 +692,28 @@
                 max-width: 100%;
                 text-align: left;
                 width: 100%;
+                margin-left: 0;
+                font-size: 1.15rem;
             }
 
             .detail-row .label {
                 width: 100%;
+                font-size: 1.1rem;
             }
 
-            .refund-header .badge {
-                font-size: 0.75rem;
+            .detail-row .value.mono {
+                text-align: left;
+                font-size: 1rem;
                 padding: 0.15rem 0.6rem;
+            }
+
+            .protected-badge {
+                font-size: 0.95rem;
+                padding: 0.3rem 1rem 0.3rem 0.8rem;
+            }
+
+            .protected-badge i {
+                font-size: 1rem;
             }
 
             .refund-actions .btn-claim {
@@ -720,7 +722,128 @@
             }
 
             .refund-footer .footer-copyright {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+            }
+
+            .toast {
+                font-size: 1rem;
+                padding: 0.7rem 1.2rem;
+                bottom: 1rem;
+            }
+        }
+
+        @media (min-width: 401px) and (max-width: 600px) {
+            .login-header {
+                padding: 1.2rem 1.6rem;
+                min-height: 5.6rem;
+            }
+
+            .login-header .brand svg {
+                height: 3.2rem;
+            }
+
+            .language-selector {
+                font-size: 1.2rem;
+                padding: 0.4rem 1rem 0.4rem 1.2rem;
+            }
+
+            .refund-content {
+                padding: 2rem 1.8rem 2rem;
+            }
+
+            .refund-header {
+                flex-wrap: wrap;
+            }
+
+            .refund-header .title-group h1 {
+                font-size: 1.6rem;
+            }
+
+            .refund-header .badge {
+                font-size: 0.85rem;
+                padding: 0.2rem 0.9rem;
+            }
+
+            .refund-header .icon-wrapper {
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+                font-size: 1.5rem;
+            }
+
+            .status-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.6rem;
+                padding: 1.2rem 1.4rem;
+            }
+
+            .status-banner .status-icon {
+                font-size: 1.6rem;
+            }
+
+            .status-banner .status-text {
+                font-size: 1.2rem;
+            }
+
+            .amount-section .amount-row .value {
+                font-size: 1.7rem;
+            }
+
+            .detail-row .value {
+                font-size: 1.2rem;
+                max-width: 55%;
+            }
+
+            .refund-actions .btn-claim {
+                font-size: 1.3rem;
+                padding: 1rem 1.6rem;
+            }
+
+            .protected-badge {
+                font-size: 1rem;
+                padding: 0.4rem 1.2rem 0.4rem 1rem;
+            }
+
+            .refund-footer .footer-copyright {
+                font-size: 0.95rem;
+            }
+
+            .toast {
+                font-size: 1.05rem;
+                padding: 0.8rem 1.4rem;
+                bottom: 1.2rem;
+            }
+        }
+
+        @media (min-width: 601px) {
+            body {
+                padding: 2rem;
+                background: #f0f2f6;
+            }
+
+            .page-wrapper {
+                border-radius: 32px;
+                box-shadow: 0 24px 80px rgba(0, 0, 0, 0.07), 0 8px 32px rgba(0, 0, 0, 0.03);
+                border: 1px solid #f0f2f5;
+                min-height: auto;
+                max-height: 98vh;
+                margin: 0 auto;
+            }
+
+            .refund-content {
+                justify-content: flex-start;
+                padding: 2.4rem 3.2rem 2.4rem;
+            }
+
+            .refund-header .title-group h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-wrapper {
+                max-width: 560px;
             }
         }
     </style>
@@ -737,7 +860,7 @@
     <div class="page-wrapper">
 
         <!-- ============================================
-           TOP HEADER - BLACK BACKGROUND
+           TOP HEADER - BLACK BAR
            ============================================ -->
         <div class="login-header">
             <a href="#" class="brand">
@@ -849,14 +972,13 @@
                     Claim Your Refund
                 </button>
 
-                <!-- Progress Bar -->
                 <div class="progress-container" id="progressContainer">
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
             </div>
 
             <!-- ============================================
-               FOOTER - CLEAN & MINIMAL
+               FOOTER
                ============================================ -->
             <div class="refund-footer">
                 <div class="footer-divider"></div>
