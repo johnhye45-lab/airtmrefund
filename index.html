@@ -30,8 +30,9 @@
             font-family: "Work Sans", "Helvetica Neue", sans-serif;
             background: #f0f2f6;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
             padding: 0;
         }
@@ -49,10 +50,11 @@
             min-height: 100vh;
             margin: 0 auto;
             position: relative;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.07);
         }
 
         /* ============================================
-           TOP HEADER - BLACK BAR (FULL WIDTH)
+           TOP HEADER - BLACK BAR (FULL WIDTH - VISIBLE)
            ============================================ */
         .login-header {
             display: flex;
@@ -64,7 +66,8 @@
             min-height: 6.4rem;
             flex-shrink: 0;
             position: relative;
-            z-index: 10;
+            z-index: 50;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .login-header .brand {
@@ -820,6 +823,8 @@
             body {
                 padding: 2rem;
                 background: #f0f2f6;
+                justify-content: center;
+                align-items: center;
             }
 
             .page-wrapper {
@@ -850,19 +855,13 @@
 </head>
 <body>
 
-    <!-- ===== TOAST NOTIFICATION ===== -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">Refund claimed successfully!</span>
-    </div>
-
     <!-- ===== PAGE WRAPPER ===== -->
     <div class="page-wrapper">
 
         <!-- ============================================
-           TOP HEADER - BLACK BAR
+           TOP HEADER - BLACK BAR (CLEARLY VISIBLE)
            ============================================ -->
-        <div class="login-header">
+        <header class="login-header">
             <a href="#" class="brand">
                 <svg viewBox="0 0 98 39" fill="currentColor" width="98" class="text--white">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M28.6946 0.795593H24.5919V22.0357H28.6946V0.795593ZM5.46951 17.6468L11.1472 5.91808L14.2697 12.3606L5.46951 17.6474V17.6468ZM23.164 22.0603L19.1688 13.8184L23.0611 11.4801L21.0654 8.2775L17.5169 10.4094L13.6284 2.38616C13.3904 1.89447 13.0272 1.48678 12.5783 1.20645C12.1261 0.925006 11.6072 0.782617 11.0771 0.796523C10.5465 0.809872 10.0343 0.978402 9.59598 1.2832C9.17716 1.57466 8.84343 1.9818 8.62818 2.46236L0.83579 18.5601L0.817435 18.6035C0.299055 19.826 0.642232 21.211 1.67121 22.0509C2.68127 22.8752 4.074 22.9452 5.15915 22.235L15.9222 15.7696L18.9713 22.0609H23.164V22.0603ZM35.3001 10.7275H41.3942V10.728C44.532 10.728 45.5879 9.08269 45.5879 7.22757C45.5879 5.37246 44.532 3.84722 41.4244 3.84722H35.3001V10.7275ZM42.1789 0.795593C48.0319 0.795593 49.9022 3.90699 49.9022 7.19769C49.9022 9.68037 48.6051 12.2533 45.1051 13.151L50.626 22.0357H45.9797L40.8512 13.6894H35.3001V22.0357H31.1974V0.795593H42.1789ZM51.1385 4.08629H58.9521V22.0357H63.056V4.08629H70.8696V0.795593H51.1385V4.08629ZM78.795 0.795593H72.731H72.7305V22.0357H76.4414V6.6592C76.4414 5.70176 76.3811 4.83397 76.2907 4.08629H76.4112C76.5318 4.65524 76.8337 5.7621 77.1357 6.56955L83.2298 22.0363H87.0914L93.1855 6.56955C93.5175 5.76153 93.8792 4.56501 93.9702 4.08629H94.0907C94.0003 4.86443 93.94 5.79141 93.94 6.6592V22.0357H97.7715V0.795593H91.6473L85.8847 15.6037C85.5532 16.5008 85.3718 17.0393 85.2513 17.7577H85.191C85.0838 17.1195 84.929 16.6466 84.6837 15.8976C84.6531 15.8043 84.6212 15.7066 84.5877 15.6037L78.795 0.795593Z"></path>
@@ -889,6 +888,14 @@
                     <button class="dropdown-item" data-lang="PT">Português <i class="fas fa-check check-icon"></i></button>
                 </div>
             </div>
+        </header>
+
+        <!-- ============================================
+           TOAST NOTIFICATION
+           ============================================ -->
+        <div class="toast" id="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMessage">Refund claimed successfully!</span>
         </div>
 
         <!-- ============================================
